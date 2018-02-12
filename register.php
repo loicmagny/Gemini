@@ -1,43 +1,29 @@
 <?php
-include 'header.php'
+include 'header.php';
+include 'controllers/register-controller.php';
 ?>
-<div class="jumbotron register">
-  <h2 class="display-3">S'incrire</h2>
-  <form class="form-horizontal">
-    <fieldset>
-      <div class="form-group">
-        <label for="inputUsername" class="col-lg-2 control-label">Nom d'utilisateur</label>
-        <div class="col-lg-10">
-          <input class="form-control" id="inputEmail" placeholder="Ex: jeanDubois56874" type="text">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputMail" class="col-lg-2 control-label">Adresse mail</label>
-        <div class="col-lg-10">
-          <input class="form-control" id="inputMail" placeholder="Ex: jeanDubois56874@hotmail.com" type="text">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputPassword" class="col-lg-2 control-label">Mot de passe</label>
-        <div class="col-lg-10">
-          <input class="form-control" id="inputPassword" placeholder="Ex: azerty" type="password">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="inputPasswordConfirm" class="col-lg-2 control-label">Confirmez votre mot de passe</label>
-        <div class="col-lg-10">
-          <input class="form-control" id="inputPasswordConfirm" type="password">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-lg-10 col-lg-offset-2">
-          <button type="reset" class="btn btn-default">Annuler</button>
-          <button type="submit" class="btn btn-primary">S'inscrire</button>
-        </div>
-      </div>
+<div class="section white">
+    <div>
+        <?php foreach ($formError as $error) { ?>
+            <p><?= $error ?></p>
+        <?php } ?>
     </div>
-  </fieldset>
-</form>
+    <form action="#" method="POST">
+        <label for="username" class="<?= isset($formError['username']) ? 'inputError' : '' ?>"> Nom d'utilisateur* : </label><input type="text" name="username" value="<?= $user->login ?>" />
+        <label for="password" class="<?= isset($formError['password']) ? 'inputError' : '' ?>"> Mot de passe* :  </label><input type="password" name="password" value="<?= $user->password ?>" />
+        <label for="confirm" class="<?= isset($formError['confirm']) ? 'inputError' : '' ?>"> Confirmer le mot de passe* :  </label><input type="password" name="confirm" value="<?= $user->password ?>" />
+        <label for="birthdate" class="<?= isset($formError['birthdate']) ? 'inputError' : '' ?>"> Date de naissance* : </label><input type="date" name="birthdate" value="<?= $user->birthdate ?>" />
+        <label for="mail" class="<?= isset($formError['mail']) ? 'inputError' : '' ?>"> Adresse mail* : </label><input type="text" name="mail" value="<?= $user->mail ?>" />
+        <label for="file" class="<?= isset($formError['file']) ? 'inputError' : '' ?>">Photo de profil* :  </label><input type="file" name="file" />
+        <input name="submit" type="submit" class="waves-effect waves-light btn" value="Valider"/>
+    </form>
+    <p class="formValid">
+        <?php if ($insertSuccess) { ?>
+        <p class="black-text">Envoi réussi</p>
+        <?php
+    }
+    ?>
+</p>
+</div>
 <?php
-include 'footer.php'
-?>
+include 'footer.php';
