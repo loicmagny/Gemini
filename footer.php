@@ -1,4 +1,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="connection.js"></script>
+<script src="post.js"></script>
+<script src="xhr.js"></script>
 <script src="assets/libs/materialize/dist/js/materialize.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -8,7 +11,7 @@
             edge: 'left', // Choose the horizontal origin
             closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
             draggable: true // Choose whether you can drag to open on touch screens,
-        })
+        });
     });
     $(document).ready(function () {
         $('select').material_select();
@@ -50,8 +53,8 @@
     $(document).ready(function () {
         $('ul.tabs').tabs();
     });
-    $('#navbar').pushpin({
-        top: $('#wrapper').offset().top
+    $(document).ready(function () {
+        $('input#input_text, textarea#textarea1').characterCounter();
     });
 
 </script>

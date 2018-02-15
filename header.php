@@ -5,7 +5,9 @@ include 'models/user.php';
 include 'models/components.php';
 include 'models/products.php';
 include 'models/definition-model.php';
-include 'controllers/connexion-controller.php';
+include 'models/forum-model.php';
+include 'models/post-model.php';
+include 'controllers/connection-controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -60,7 +62,7 @@ include 'controllers/connexion-controller.php';
                     } else {
                         ?>
                         <li><div class="user-view">
-                                <a href="connexion.php">Se connecter</a>
+                                <a href="connection.php">Se connecter</a>
                         </li>
                         <?php
                     }

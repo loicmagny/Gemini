@@ -1,46 +1,27 @@
 <?php
-if (isset($_POST['submit']) || isset($_POST['connect'])) {
-    $_SESSION['submit'] = $_POST['submit'];
-    $_SESSION['username'] = $_POST['username'];
-    $_SESSION['password'] = $_POST['password'];
-    $_SESSION['mail'] = $_POST['mail'];
-    $_SESSION['age'] = $_POST['age'];
-    $_SESSION['profilePic'] = $_POST['profilePic'];
-}
 include 'header.php';
+include 'controllers/forum-controller.php';
 ?>
 <div class="jumbotron">
-    <h2>Forum</h2>
+    <h1>Forum</h1>
     <table class="table table-striped table-hover ">
         <thead>
             <tr>
                 <th>Nom du topic</th>
                 <th>Créateur</th>
                 <th>Date</th>
+                <th><a class="btn tooltipped btn-flat" data-position="bottom" data-delay="50" data-tooltip="Créer un topic" href="add-topic.php"><i class="material-icons">add_circle</i></a></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="success">
-                <td>Topic 1</td>
-                <td>admin</td>
-                <td>08/12/2017</td>
-            </tr>
-            <tr class="danger">
-                <td>Topic 2</td>
-                <td>admin</td>
-                <td>08/12/2017</td>
-            </tr>
-            <tr class="warning">
-                <td>Topic 3</td>
-                <td>admin</td>
-                <td>08/12/2017</td>
-            </tr>
-            <tr class="active">
-                <td>Topic 4</td>
-                <td>admin</td>
-                <td>08/12/2017</td>
-            </tr>
-        </tbody>
+            <?php foreach ($topicsList as $topics) { ?>
+                <tr class="success">
+                    <td><a href="topic.php?topic=<?= $topics->id ?>&name=<?= $topics->topic ?>"> <?= $topics->topic ?> </a></td>
+                    <td><?= $topics->idmaker ?></td>
+                    <td><?= $topics->date ?></td>
+                </tr>
+            </tbody>
+        <?php } ?>
     </table>
 </div>
 <?php

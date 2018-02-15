@@ -36,6 +36,7 @@ if (isset($_POST['mail'])) {
         $formError['mail'] = 'L\'adresse mail n\'est pas correcte';
     }
 }
+$user->addUser();
 //On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur
 if (isset($_POST['submit']) && count($formError) == 0) {
     if (!$user->addUser()) {

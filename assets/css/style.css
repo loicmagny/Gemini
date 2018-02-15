@@ -2,18 +2,6 @@
     display: flex;
     align-content: center;
 }
-html, body {
-    height: 100%;
-}
-
-.pin-top {
-    position: relative;
-}
-
-
-.pin-bottom {
-    position: relative;
-}
 
 .slider{
     z-index: -1;
@@ -44,9 +32,6 @@ th{
 }
 td{
     font-family: 'Nova Cut', cursive;
-}
-li{
-    text-align: center;
 }
 .search{
     display: inline;
@@ -185,4 +170,25 @@ th{
     background-color: black;
     position: relative;
     overflow-x: scroll;
+}
+.postInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.postDate{
+    display: inherit;
+    font-size: 10px;
+    color:grey;
+}
+.postMaker{
+    display: inherit;
+    justify-content: center;
+    float: left;
+}
+.postContent{
+    height: 12em;
+    display: inherit;
+    float: left;
+    margin: 0.5em 0.5em;
 }

@@ -17,10 +17,10 @@ include 'controllers/definition-controller.php';
 <div class="section white">
     <div class="row container">
         <?php
-        foreach ($letters as $tabs) {
+        foreach ($definitionList as $definition) {
             ?>
-            <div id="<?= $tabs ?>" class="col s12 black-text def">
-                <a href="definition.php?letter=<?= $tabs ?>"><?= $tabs ?></a>
+            <div id="definition" class="col s12 black-text def">
+                <a href="definition.php?letter=<?= $definition->id ?>"><?= $definition->defname ?></a>
             </div>
             <?php
         }

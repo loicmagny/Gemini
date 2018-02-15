@@ -2,7 +2,7 @@
 include 'header.php';
 ?>
 <div class="section white">
-    <div class="row">
+    <div class="row">     
         <form class="col s12" action="#" method="POST">
             <div class="row">
                 <div class="input-field col s6">
@@ -13,8 +13,10 @@ include 'header.php';
                     <input id="password" type="password" name="password" class="validate">
                     <label for="password">Mot de passe</label>
                 </div>
-                <input name="connect" type="submit" class="waves-effect waves-light btn" value="Valider"/>
-            </div>  
+                <input name="connect" id="connect" type="submit" class="waves-effect waves-light btn" value="Valider"/>
+            </div>
+            <div id="resultat">
+            </div>
             <?php
             foreach ($formError as $error) {
                 ?>
