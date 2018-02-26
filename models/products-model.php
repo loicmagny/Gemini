@@ -13,7 +13,7 @@ class products extends dataBase {
     }
 
     public function productSearch() {
-        $query = 'SELECT `products`.`id`, `products`.`productname`, `products`.`description`, `products`.`type`, `products`.`brand`, `components`.`id`, `components`.`componentsname`, `components`.`description` AS description, `components`.`type`,`components`.`productId` FROM (`products` LEFT JOIN `components` ON `products`.`id` = `components`.`productId`) WHERE `products`.`productname` = :productname AND `products`.`type` = :type AND `products`.`brand` = :brand';
+        $query = 'SELECT `' . self::PREFIX . 'products`.`id`, `' . self::PREFIX . 'products`.`productname`, `' . self::PREFIX . 'products`.`description`, `' . self::PREFIX . 'products`.`type`, `' . self::PREFIX . 'products`.`brand`, `' . self::PREFIX . 'components`.`id`, `' . self::PREFIX . 'components`.`componentsname`, `' . self::PREFIX . 'components`.`description` AS description, `' . self::PREFIX . 'components`.`type`,`' . self::PREFIX . 'components`.`productId` FROM (`' . self::PREFIX . 'products` LEFT JOIN `' . self::PREFIX . 'components` ON `' . self::PREFIX . 'products`.`id` = `' . self::PREFIX . 'components`.`productId`) WHERE `' . self::PREFIX . 'products`.`productname` = :productname AND `' . self::PREFIX . 'products`.`type` = :type AND `' . self::PREFIX . 'products`.`brand` = :brand';
         $productSearch = $this->db->prepare($query);
         $productSearch->bindValue(':productname', $this->productname, PDO::PARAM_STR);
         $productSearch->bindValue(':type', $this->type, PDO::PARAM_INT);

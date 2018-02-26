@@ -2,9 +2,9 @@
 include 'header.php';
 include 'controllers/forum-controller.php';
 ?>
-<div class="jumbotron">
+<div class="section white">
     <h1>Forum</h1>
-    <table class="table table-striped table-hover ">
+    <table class="table table-striped table-hover center tableCommunity">
         <thead>
             <tr>
                 <th>Nom du topic</th>
@@ -15,9 +15,9 @@ include 'controllers/forum-controller.php';
         </thead>
         <tbody>
             <?php foreach ($topicsList as $topics) { ?>
-                <tr class="success">
+                <tr class="success center tableCommunity">
                     <td><a href="topic.php?topic=<?= $topics->id ?>&name=<?= $topics->topic ?>"> <?= $topics->topic ?> </a></td>
-                    <td><?= $topics->idmaker ?></td>
+                    <td><?= $topics->loginAuthor ?></td>
                     <td><?= $topics->date ?></td>
                 </tr>
             </tbody>

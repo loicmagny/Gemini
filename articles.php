@@ -1,45 +1,29 @@
 <?php
-if (isset($_POST['submit']) || isset($_POST['connect'])) {
-    $_SESSION['submit'] = $_POST['submit'];
-    $_SESSION['username'] = $_POST['username'];
-    $_SESSION['password'] = $_POST['password'];
-    $_SESSION['mail'] = $_POST['mail'];
-    $_SESSION['age'] = $_POST['age'];
-    $_SESSION['profilePic'] = $_POST['profilePic'];
-}
 include 'header.php';
+include 'controllers/article-controller.php';
 ?>
-<div class="jumbotron">
+<div class="section white">
     <h2>Articles</h2>
-    <table class="table table-striped table-hover ">
+    <table class="table table-striped table-hover center tableCommunity">
         <thead>
             <tr>
                 <th>Nom de l'article</th>
                 <th>Créateur</th>
                 <th>Date</th>
+                <th><a class="btn tooltipped btn-flat" data-position="bottom" data-delay="50" data-tooltip="Ajouter un article" href="add-article.php"><i class="material-icons">add_circle</i></a></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="success">
-                <td>Article 1</td>
-                <td>admin</td>
-                <td>08/12/2017</td>
-            </tr>
-            <tr class="danger">
-                <td>Article 2</td>
-                <td>admin</td>
-                <td>08/12/2017</td>
-            </tr>
-            <tr class="warning">
-                <td>Article 3</td>
-                <td>admin</td>
-                <td>08/12/2017</td>
-            </tr>
-            <tr class="active">
-                <td>Article 4</td>
-                <td>admin</td>
-                <td>08/12/2017</td>
-            </tr>
+            <?php
+            foreach ($articleList as $article) {
+                ?>  <tr class="success center tableCommunity">
+                    <td><a href="articles-content.php?article=<?= $article->id; ?>"><?= $article->title; ?></a></td>
+                    <td><?= $article->maker; ?></td>
+                    <td><?= $article->date; ?></td>
+                </tr>
+                <?php
+            }
+            ?>
         </tbody>
     </table>
 </div>

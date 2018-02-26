@@ -2,29 +2,37 @@
 include 'header.php';
 include 'controllers/definition-controller.php';
 ?>
+<div>
+    <?php foreach ($searchError as $error) { ?>
+        <p><?= $error ?></p>
+    <?php } ?>
+</div>
 <div class="row">
     <div class="col s12">
-        <ul class="tabs tab-demo z-depth-1">
-            <?php foreach ($letters as $tabs) {
+        <div class="letterList">
+            <?php foreach ($letters as $letter) {
                 ?>
-                <li class="tab"><a href="#" ><?= $tabs ?></a></li>
+                <a class="btn-floating letter hoverable" href="definition.php?letter=<?= $letter ?>" ><?= $letter ?></a>
                 <?php
             }
             ?>
-        </ul>
+        </div>
     </div>
 </div>
 <div class="section white">
     <div class="row container">
-        <?php
-        foreach ($definitionList as $definition) {
-            ?>
-            <div id="definition" class="col s12 black-text def">
-                <a href="definition.php?letter=<?= $definition->id ?>"><?= $definition->defname ?></a>
-            </div>
+        <ul class="collapsible popout" data-collapsible="accordion">
             <?php
-        }
-        ?>
+            foreach ($definitionList as $definition) {
+                ?>
+                <li>
+                    <div class="collapsible-header hoverable"><i class="material-icons">filter_drama</i><?= $definition->defname; ?></div>
+                    <div class="collapsible-body"><span><?= $definition->description; ?></span></div>
+                </li>
+                <?php
+            }
+            ?>
+        </ul>
     </div>
 </div>
 <?php

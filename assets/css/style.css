@@ -1,8 +1,14 @@
+nav{
+    margin-top: 1.3em;
+}
+.brand-logo{
+    font-family: 'Libre Barcode 39 Text', cursive;
+
+}
 .form-group{
     display: flex;
     align-content: center;
 }
-
 .slider{
     z-index: -1;
 }
@@ -61,7 +67,6 @@ td{
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
-
 .carousel-body {
     margin-bottom: 1rem;
 }
@@ -73,8 +78,7 @@ button{
     text-align: center;
 }
 body a.button-collapse {
-    position: fixed;
-    left: 1vmin;
+    position: absolute;
 }
 .line{
     display: flex;
@@ -91,9 +95,10 @@ legend, input{
 .tabs tabs-fixed-width ul{
     color: black;
 }
-.profilePic{
+.list-group.list-group-flush{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    text-align: center;
 }
 .footer{
     margin-top: 5%;
@@ -114,7 +119,7 @@ legend, input{
     list-style: none;
     margin: 1%;
 }
-.modal-body{
+.modal-content{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -127,9 +132,6 @@ legend, input{
 }
 td{
     margin: 4% auto;
-}
-th{
-    text-align: center;
 }
 .green{
     border: 4px solid white;
@@ -191,4 +193,27 @@ th{
     display: inherit;
     float: left;
     margin: 0.5em 0.5em;
+}
+#toast-container .toast::after {
+    font-family: 'Material Icons';
+    content: "close";
+    -webkit-font-feature-settings: 'liga';
+    color: #dd2c00;
+    font-size: 1.5rem;
+    font-weight: 300;
+    float: right;
+    padding-left: 3rem;
+}
+.tableCommunity{
+    align-items: center;
+}
+.letterList{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.letter{
+    margin: 1em;
+    background-color: purple; 
+    text-align: center;
 }

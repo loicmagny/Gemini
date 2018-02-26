@@ -4,6 +4,7 @@ class dataBase {
 
 //L'attribut $db sera disponible dans ses enfants
     protected $db;
+    const PREFIX = 'NCV9fL8njjsAB9Me_';
 
     public function __construct() {
         try {

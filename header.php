@@ -1,13 +1,18 @@
 <?php
 session_start();
 include 'models/dataBase.php';
-include 'models/user.php';
-include 'models/components.php';
-include 'models/products.php';
+include 'models/user-model.php';
+include 'models/components-model.php';
+include 'models/products-model.php';
 include 'models/definition-model.php';
 include 'models/forum-model.php';
 include 'models/post-model.php';
+include 'models/advice-model.php';
+include 'models/article-model.php';
 include 'controllers/connection-controller.php';
+if (isset($_SESSION['connect'])) {
+    include_once 'header-profile.php';
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -41,70 +46,72 @@ include 'controllers/connection-controller.php';
         <link href="starter-template.css" rel="stylesheet">
     </head>
     <body>
-        <div class="row">
-            <div class="col s12 m4 l3">
-                <ul id="slide-out" class="side-nav">
-                    <li class="center"><img class="brand" src="assets/img/logo.png" alt="logo Gemini" /></li>
-                    <li class="divider"></li>
-                    <?php
-                    if (isset($_SESSION['connect'])) {
-                        ?>
-                        <li><div class="user-view">
-                                <span class="black-text name center"><?= $_SESSION['login']; ?></span></a>
-                                <span class="black-text email center"><?= $_SESSION['mail']; ?></span></a>
-                            </div>
-                        </li>
-                        <div class="row line">
-                            <a href="options.php"<i class="material-icons md-36 dark settings">settings</i></a>
-                            <a href="deconnexion.php"><i class = "material-icons">cancel</i></a>
-                        </div>
+        <ul id="dropdown1" class="dropdown-content">
+            <li><a href="forum.php">Forum</a></li>
+            <li><a href="articles.php">Articles</a></li>
+            <li><a href="advice.php">Conseils</a></li>
+        </ul>
+
+
+        <nav>
+            <div class="nav-wrapper">
+                <a href="index.php" class="brand-logo center">Gemini</a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="index.php">Accueil</a></li>
+                    <li><a href="search.php">Recherche</a></li>
+                    <li><a href="definition.php?letter=a">Glossaire</a></li>
+                    <?php if (isset($_SESSION['connect'])) { ?>
+                        <li><a href="profile.php"><?= $_SESSION['login'] ?></a></li>
                         <?php
                     } else {
                         ?>
-                        <li><div class="user-view">
-                                <a href="connection.php">Se connecter</a>
-                        </li>
-                        <?php
-                    }
-                    ?>
+                        <li><a class="modal-trigger" href="#modal1">Se connecter</a></li>
+                    <?php } ?>
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Communauté<i class="material-icons right">arrow_drop_down</i></a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li><a href="index.php">Accueil</a></li>
+                    <li><a href="search.php">Recherche</a></li>
+                    <li><a href="definition.php?letter=a">Glossaire</a></li>
+                    <li><a href="connection.php">Se connecter</a></li>
                     <li class="divider"></li>
-                    <li class="center"><a href="index.php">Accueil</a></li>
-                    <li class="center"><a href="search.php">Rechercher</a></li>
-                    <li class="center"><a href="definition.php">Glossaire</a></li>
-                    <li class="no-padding center">
-                        <ul class="collapsible collapsible-accordion">
-                            <li>
-                                <a class="collapsible-header">Communauté<i class="material-icons">expand_more</i></a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="forum.php">Forum</a></li>
-                                        <li><a href="advise.php">Conseils</a></li>
-                                        <li><a href="articles.php">Articles</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#!">Publier un article</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#!">Soumettre un ajout</a></li>
-                                        <li class="divider"></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="no-padding center">
-                        <ul class="collapsible collapsible-accordion">
-                            <li>
-                                <a class="collapsible-header">Profil<i class="material-icons">expand_more</i></a>
-                                <div class="collapsible-body">
-                                    <ul>
-                                        <li><a href="profile.php">Profil</a></li>
-                                        <li><a href="register.php">S'inscrire</a></li>
-                                        <li><a href="options.php">Options</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><a href="forum.php">Forum</a></li>
+                    <li><a href="articles.php">Articles</a></li>
+                    <li><a href="advice.php">Conseils</a></li>
+                </ul>
             </div>
-        </ul>
-    </div>
-    <a href="#" data-activates="slide-out" class="button-collapse btn-floating btn-large cyan pulse right"><i class="material-icons">menu</i></a>
+        </nav>
+        <div id="modal1" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <h2>Se connecter</h2>
+                    <form class="col s12" action="#" method="POST">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="login" type="text" name="login" class="validate">
+                                <label for="login">Nom d'utilisateur</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="password" type="password" name="password" class="validate">
+                                <label for="password">Mot de passe</label>
+                            </div>
+                            <input name="connect" id="connect" type="submit" class="waves-effect waves-light btn-flat" value="Valider"/>
+                        </div>
+                        <div id="resultat">
+                        </div>
+                        <?php
+                        foreach ($formError as $error) {
+                            ?>
+                            <p><?= $error ?></p>
+                            <?php
+                        }
+                        ?>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Mot de passe oublié?</a>
+                <a href="register.php" class="modal-action modal-close waves-effect waves-green btn-flat ">Pas encore inscrit?</a>
+            </div>
+        </div>
