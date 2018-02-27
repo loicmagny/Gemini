@@ -51,8 +51,6 @@ if (isset($_SESSION['connect'])) {
             <li><a href="articles.php">Articles</a></li>
             <li><a href="advice.php">Conseils</a></li>
         </ul>
-
-
         <nav>
             <div class="nav-wrapper">
                 <a href="index.php" class="brand-logo center">Gemini</a>

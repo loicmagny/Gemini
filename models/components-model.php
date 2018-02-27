@@ -12,17 +12,15 @@ class components extends dataBase {
     }
 
     public function componentSearch() {
-        $query = 'SELECT `id`, `componentsname`, `description`, `type`, `productId` FROM `components` WHERE `componentsname` = :componentsname AND `type` = :type ';
+        $query = 'SELECT `id`, `componentsname`, `description`, `type`, `productId` FROM `' . self::PREFIX . 'components` WHERE componentsname = :componentsname AND type = :type';
         $componentSearch = $this->db->prepare($query);
         $componentSearch->bindValue(':componentsname', $this->componentsname, PDO::PARAM_STR);
-        $componentSearch->bindValue(':type', $this->type, PDO::PARAM_INT);
+        $componentSearch->bindValue(':type', $this->type, PDO::PARAM_STR);
         $componentSearch->execute();
         if ($componentSearch->execute()) {
-            if (is_object($componentSearch)) {
-                $componentList = $componentSearch->fetch(PDO::FETCH_OBJ);
-            }
-            return $componentList;
+            $componentList = $componentSearch->fetch(PDO::FETCH_OBJ);
         }
+        return $componentList;
     }
 
     function __destruct() {

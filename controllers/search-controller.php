@@ -3,6 +3,9 @@
 $componentSearch = false;
 $formError = array();
 $component = new components();
+$historic = new historic();
+$product = new products();
+$productSearch = false;
 if (isset($_POST['searchComponent'])) {
     if (isset($_POST['componentName'])) {
         $component->componentsname = strip_tags($_POST['componentName']);
@@ -11,19 +14,15 @@ if (isset($_POST['searchComponent'])) {
         $component->type = strip_tags($_POST['componentType']);
     }
     $componentList = $component->componentSearch();
-//On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur
+    $historic->id_components = $componentList->id;
     if (!$componentList) {
         $formError['submitComponent'] = 'Erreur lors de la recherche';
     } else {
         $componentSearch = true;
-        $component->componentsname = '';
-        $component->type = '';
+        $historic->id_user = $_SESSION['id'];
+        $addInHistoric = $historic->AddInHistoric();
     }
-}
-
-$product = new products();
-$productSearch = false;
-if (isset($_POST['searchProduct'])) {
+} else if (isset($_POST['searchProduct'])) {
     if (isset($_POST['productName'])) {
         $product->productname = strip_tags($_POST['productName']);
     }
@@ -34,14 +33,13 @@ if (isset($_POST['searchProduct'])) {
         $product->brand = strip_tags($_POST['productBrand']);
     }
     $productList = $product->productSearch();
-//On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur
+    $historic->id_products = $productList->id;
     if (!$productList) {
         $formError['submitProduct'] = 'Erreur lors de la recherche';
     } else {
         $productSearch = true;
-        $product->productname = '';
-        $product->type = '';
-        $product->brand = '';
+        $historic->id_user = $_SESSION['id'];
+        $addInHistoric = $historic->AddInHistoric();
     }
 }
 

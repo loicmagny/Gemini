@@ -5,7 +5,7 @@ include 'controllers/search-controller.php';
 <div class="section white">
     <div class="row container">
         <h2 class="display-3">Rechercher un composant</h2>
-        <form class="form-horizontal" method="POST" action="#">
+        <form class="form-horizontal" method="POST" action="search-result.php">
             <div class="input-field col s6">
                 <input id="last_name" type="text" name="componentName" class="validate">
                 <label for="componentName">Nom du composant</label>
@@ -13,11 +13,11 @@ include 'controllers/search-controller.php';
             <div class="input-field col s12">
                 <select multiple name="componentType">
                     <option disabled>Sélectionnez</option>
-                    <option value="1">Produit alimentaire</option>
-                    <option value="2"> Produit cosmétique</option>
-                    <option value="3">Produit d'hygiène</option>
-                    <option value="4">Produit de lessive</option>
-                    <option value="5">Produit médical</option>
+                    <option value="Composant alimentaire">Composant alimentaire</option>
+                    <option value="Composant cosmétique"> Composant cosmétique</option>
+                    <option value="Composant d'hygiène">Composant d'hygiène</option>
+                    <option value="Composant de lessive">Composant de lessive</option>
+                    <option value="Composant médical">Composant médical</option>
                 </select>
                 <label for="componentType">Type de prduit</label>
             </div>
@@ -49,7 +49,7 @@ include 'controllers/search-controller.php';
 <div class="section white">
     <div class="row container">
         <h2 class="display-3">Rechercher un produit</h2>
-        <form class="form-horizontal" action="#" method="POST">
+        <form class="form-horizontal" action="search-result.php" method="POST">
             <div class="input-field col s6">
                 <input id="last_name" type="text" name="productName" class="validate">
                 <label for="productName">Nom du produit</label>
@@ -59,13 +59,13 @@ include 'controllers/search-controller.php';
                 <label for="productBrand">Marque</label>
             </div>
             <div class="input-field col s12">
-                <select name="productType" multiple>
-                    <option value="" disabled>Sélectionnez</option>
-                    <option value="1">Produit alimentaire</option>
-                    <option value="2"> Produit cosmétique</option>
-                    <option value="3">Produit d'hygiène</option>
-                    <option value="4">Produit de lessive</option>
-                    <option value="5">Produit médical</option>
+                <select name="productType">
+                    <option disabled>Vous pouvez le trouver dans..</option>
+                    <option value="Produit alimentaire">Produit alimentaire</option>
+                    <option value="Produit cosmétique"> Produit cosmétique</option>
+                    <option value="Produit d'hygiène">Produit d'hygiène</option>
+                    <option value="Produit de lessive">Produit de lessive</option>
+                    <option value="Produit médical">Produit médical</option>
                 </select>
                 <label name="productType">Type de prduit</label>
             </div>

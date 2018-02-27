@@ -1,7 +1,5 @@
 <?php
 include 'header.php';
-?>
-<?php
 if (isset($_SESSION['connect'])) {
     ?>
     <div class="card">
@@ -22,26 +20,24 @@ if (isset($_SESSION['connect'])) {
         </div>
         <div id="recentSearch">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Recherche 1</li>
-                <li class="list-group-item">Recherche 2</li>
-                <li class="list-group-item">Recherche 3</li>
+                <?php foreach ($historicList as $historic) { ?>
+                    <li class="list-group-item"><?= $historic->componentsname; ?></li>
+                    <li class="list-group-item"><?= $historic->productname; ?></li>
+                <?php } ?>
             </ul>
         </div>
         <div id="topic">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Topic 1</li>
-                <li class="list-group-item">Topic 2</li>
-                <li class="list-group-item">Topic 3</li>
+
+                <?php foreach ($historicList as $historic) { ?>
+                    <li class="list-group-item"><?= $historic->topic; ?></li>
+                    <?php } ?>
             </ul>
         </div>
     </div>
-
-    <?php
-} else {
+<?php } else {
     ?><p>Vous n'êtes pas connecté. <a href="register.php">Inscrivez-vous</a> ou <a data-toggle="modal" href="connection.php" data-target="#myModal">connectez-vous</a></p>
-<?php }
-?>
-
+<?php } ?>
 <?php
 include 'footer.php';
 ?>

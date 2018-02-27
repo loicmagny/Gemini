@@ -5,6 +5,7 @@ $formError = array();
 if (isset($_POST['ajax'])) {
     include '../models/dataBase.php';
     include '../models/post-model.php';
+    include '../models/historic-model.php';
     $post = new post();
     if (isset($_POST['post'])) {
         $post->post = ($_POST['post']);
@@ -52,3 +53,4 @@ if (isset($_POST['ajax'])) {
     $postCount = $post->countPost();
     $maxPagination = ceil($postCount->numberPost / $limit);
 }
+    

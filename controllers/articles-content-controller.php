@@ -1,6 +1,7 @@
 <?php
 
 $article = new article();
+$historic = new historic();
 $formError = array();
 $SearchSuccess = false;
 if (isset($_GET['article'])) {

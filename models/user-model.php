@@ -47,7 +47,7 @@ class user extends dataBase {
         if ($getPassword->execute()) {
             if (is_object($getPassword)) {
                 $passwordObtained = $getPassword->fetch(PDO::FETCH_OBJ);
-                if (is_object($passwordObtained)) {
+                if (!empty($passwordObtained)) {
                     $this->password = $passwordObtained->password;
                     $isCorrect = true;
                 }

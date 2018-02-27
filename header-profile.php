@@ -1,4 +1,8 @@
-<?php include 'controllers/connection-controller.php'; ?>
+<?php
+include 'models/historic-model.php';
+include 'controllers/connection-controller.php';
+include 'controllers/historic-controller.php';
+?>
 <div class="row">
     <div class="col s12 m4 l3">
         <ul id="slide-out" class="side-nav">
@@ -9,7 +13,6 @@
                     <li class="black-text email center"><?= $_SESSION['mail']; ?></li>
                     <li class="divider"></li>
                     <li class="black-text email center"><a href="profile.php">Voir le profil</a></li>
-                    <li class="black-text email center"><a href="#">Historique</a></li>
             </li>
             <div class="row line">
                 <a href="options.php" class="btn tooltipped btn-flat"data-position="left" data-delay="50" data-tooltip="Options"><i class="material-icons md-36 dark settings">settings</i></a>
