@@ -1,5 +1,4 @@
 <?php
-
 $componentSearch = false;
 $formError = array();
 $component = new components();

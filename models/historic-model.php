@@ -29,62 +29,62 @@ class historic extends dataBase {
 
     public function getHistoric($user_id) {
         $query = 'SELECT
-    `' . self::PREFIX . 'historic`.`id` AS historic_id,
-    `' . self::PREFIX . 'historic`.`id_user`,
-    `' . self::PREFIX . 'historic`.`id_articles`,
-    `' . self::PREFIX . 'historic`.`id_components`,
-    `' . self::PREFIX . 'historic`.`id_products`,
-    `' . self::PREFIX . 'historic`.`id_topic`,
-    `' . self::PREFIX . 'historic`.`id_advice`,
-    `' . self::PREFIX . 'advices`.`id` AS advices_id,
-    `' . self::PREFIX . 'advices`.`title` AS advices_title,
-    `' . self::PREFIX . 'articles`.`id` AS articles_id,
-    `' . self::PREFIX . 'articles`.`title` AS article_title,
-    `' . self::PREFIX . 'components`.`id` AS components_id,
-    `' . self::PREFIX . 'components`.`componentsname`,
-    `' . self::PREFIX . 'products`.`id` AS products_id,
-    `' . self::PREFIX . 'products`.`productname`,
-    `' . self::PREFIX . 'forum`.`id` AS forum_id,
-    `' . self::PREFIX . 'forum`.`topic` AS topic,
-    `' . self::PREFIX . 'topic`.`topicid`,
-    `' . self::PREFIX . 'user`.`id` AS user_id,
-    `' . self::PREFIX . 'user`.`login`
+`' . self::PREFIX . 'historic`.`id` AS historic_id,
+ `' . self::PREFIX . 'historic`.`id_user`,
+ `' . self::PREFIX . 'historic`.`id_articles`,
+ `' . self::PREFIX . 'historic`.`id_components`,
+ `' . self::PREFIX . 'historic`.`id_products`,
+ `' . self::PREFIX . 'historic`.`id_topic`,
+ `' . self::PREFIX . 'historic`.`id_advice`,
+ `' . self::PREFIX . 'advices`.`id` AS advices_id,
+ `' . self::PREFIX . 'advices`.`title` AS advices_title,
+ `' . self::PREFIX . 'articles`.`id` AS articles_id,
+ `' . self::PREFIX . 'articles`.`title` AS article_title,
+ `' . self::PREFIX . 'components`.`id` AS components_id,
+ `' . self::PREFIX . 'components`.`componentsname`,
+ `' . self::PREFIX . 'products`.`id` AS products_id,
+ `' . self::PREFIX . 'products`.`productname`,
+ `' . self::PREFIX . 'forum`.`id` AS forum_id,
+ `' . self::PREFIX . 'forum`.`topic` AS topic,
+ `' . self::PREFIX . 'topic`.`topicid`,
+ `' . self::PREFIX . 'user`.`id` AS user_id,
+ `' . self::PREFIX . 'user`.`login`
 FROM
-    (
-        `' . self::PREFIX . 'historic`
-    LEFT JOIN
-        `' . self::PREFIX . 'advices`
-    ON
-        `' . self::PREFIX . 'historic`.`id_advice` = `' . self::PREFIX . 'advices`.`id`
-    LEFT JOIN
-        `' . self::PREFIX . 'user`
-    ON
-        `' . self::PREFIX . 'historic`.`id_user` = `' . self::PREFIX . 'user`.`id`
-    LEFT JOIN
-        `' . self::PREFIX . 'articles`
-    ON
-        `' . self::PREFIX . 'historic`.`id_articles` = `' . self::PREFIX . 'articles`.`id`
-    LEFT JOIN
-        `' . self::PREFIX . 'components`
-    ON
-        `' . self::PREFIX . 'historic`.`id_components` = `' . self::PREFIX . 'components`.`id`
-    LEFT JOIN
-        `' . self::PREFIX . 'products`
-    ON
-        `' . self::PREFIX . 'historic`.`id_products` = `' . self::PREFIX . 'products`.`id`
-    LEFT JOIN
-        `' . self::PREFIX . 'forum`
-    ON
-        `' . self::PREFIX . 'historic`.`id_topic` = `' . self::PREFIX . 'forum`.`id`
-    LEFT JOIN
-        `' . self::PREFIX . 'topic`
-    ON
-        `' . self::PREFIX . 'forum`.`id` = `' . self::PREFIX . 'topic`.`topicid`
-    )
+(
+`' . self::PREFIX . 'historic`
+LEFT JOIN
+`' . self::PREFIX . 'advices`
+ON
+`' . self::PREFIX . 'historic`.`id_advice` = `' . self::PREFIX . 'advices`.`id`
+LEFT JOIN
+`' . self::PREFIX . 'user`
+ON
+`' . self::PREFIX . 'historic`.`id_user` = `' . self::PREFIX . 'user`.`id`
+LEFT JOIN
+`' . self::PREFIX . 'articles`
+ON
+`' . self::PREFIX . 'historic`.`id_articles` = `' . self::PREFIX . 'articles`.`id`
+LEFT JOIN
+`' . self::PREFIX . 'components`
+ON
+`' . self::PREFIX . 'historic`.`id_components` = `' . self::PREFIX . 'components`.`id`
+LEFT JOIN
+`' . self::PREFIX . 'products`
+ON
+`' . self::PREFIX . 'historic`.`id_products` = `' . self::PREFIX . 'products`.`id`
+LEFT JOIN
+`' . self::PREFIX . 'forum`
+ON
+`' . self::PREFIX . 'historic`.`id_topic` = `' . self::PREFIX . 'forum`.`id`
+LEFT JOIN
+`' . self::PREFIX . 'topic`
+ON
+`' . self::PREFIX . 'forum`.`topic` = `' . self::PREFIX . 'topic`.`topicid`
+)
 WHERE
-    `' . self::PREFIX . 'historic`.`id_user` = :id_user';
+`' . self::PREFIX . 'historic`.`id_user` = :id_user';
         $historicResult = $this->db->prepare($query);
-        $historicResult->bindValue('id_user', $user_id, PDO::PARAM_STR);
+        $historicResult->bindValue('id_user', $user_id, PDO::PARAM_INT);
         $historicResult->execute();
         if ($historicResult->execute()) {
             $historicList = $historicResult->fetchAll(PDO::FETCH_OBJ);
@@ -95,7 +95,7 @@ WHERE
     public function countHistoricLine($user_id) {
         $query = 'SELECT COUNT(`id`) AS `historicLine` FROM `' . self::PREFIX . 'historic` WHERE id_user = :id_user';
         $historicLineCount = $this->db->prepare($query);
-        $historicLineCount->bindValue('id_user', $user_id, PDO::PARAM_STR);
+        $historicLineCount->bindValue('id_user', $user_id, PDO::PARAM_INT);
         $historicLineCount->execute();
         if ($historicLineCount->execute()) {
             $historicLineResult = $historicLineCount->fetch(PDO::FETCH_OBJ);
@@ -106,9 +106,9 @@ WHERE
     }
 
     public function deleteHistoric($user_id) {
-        $query = 'DELETE FROM `' . self::PREFIX . 'historic` WHERE id_user = :id_user';
+        $query = 'DELETE FROM `' . self::PREFIX . 'historic` WHERE id_user = :id_user LIMIT 10';
         $historicLineCount = $this->db->prepare($query);
-        $historicLineCount->bindValue('id_user', $user_id, PDO::PARAM_STR);
+        $historicLineCount->bindValue('id_user', $user_id, PDO::PARAM_INT);
         $historicLineCount->execute();
         return $historicLineCount;
     }
@@ -118,3 +118,4 @@ WHERE
     }
 
 }
+

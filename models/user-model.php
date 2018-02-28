@@ -8,6 +8,8 @@ class user extends dataBase {
     public $birthdate = '01/01/1900';
     public $mail = '';
     public $profilePic = '';
+    public $colorNav = '';
+    public $colorUserNav = '';
 
     public function __construct() {
         parent::__construct();
@@ -27,7 +29,7 @@ class user extends dataBase {
     }
 
     public function userConnect() {
-        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic` FROM `' . self::PREFIX . 'user` WHERE `login` = :login AND `password` = :password';
+        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav` FROM `' . self::PREFIX . 'user` WHERE `login` = :login AND `password` = :password';
         $userConnect = $this->db->prepare($query);
         $userConnect->bindValue(':login', $this->login, PDO::PARAM_STR);
         $userConnect->bindValue(':password', $this->password, PDO::PARAM_STR);
@@ -54,6 +56,20 @@ class user extends dataBase {
             }
             return $isCorrect;
         }
+    }
+
+    public function updateProfile() {
+//On prépare la requête SQL pour les champs selectionnés, les valeurs sont des marqueurs nominatifs
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `login` = :login, `mail` = :mail, `profilePic` = :profilePic, `mail` = :mail, `colorNav` = :colorNav, `colorUserNav` = :colorUserNav WHERE `id` = :id';
+        $updateProfile = $this->db->prepare($query);
+        $updateProfile->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $updateProfile->bindValue(':login', $this->login, PDO::PARAM_STR);
+        $updateProfile->bindValue(':mail', $this->mail, PDO::PARAM_STR);
+        $updateProfile->bindValue(':profilePic', $this->birthdate, PDO::PARAM_STR);
+        $updateProfile->bindValue(':colorNav', $this->colorNav, PDO::PARAM_STR);
+        $updateProfile->bindValue(':colorUserNav', $this->colorUserNav, PDO::PARAM_STR);
+//Si l'insertion s'est correctement déroulée, on retourne vrai
+        return $updateProfile->execute();
     }
 
     function __destruct() {

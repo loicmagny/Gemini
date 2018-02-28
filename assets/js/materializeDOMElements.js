@@ -55,4 +55,3 @@ $(document).on('click', '#toast-container .toast', function () {
         $(this).remove();
     });
 });
-$(".button-collapse").sideNav();

@@ -35,6 +35,8 @@ if (isset($_POST['ajax'])) {
                 $_SESSION['birthdate'] = $userConnect->birthdate;
                 $_SESSION['mail'] = $userConnect->mail;
                 $_SESSION['profilePic'] = $userConnect->profilePic;
+                $_SESSION['colorNav'] = $userConnect->colorNav;
+                $_SESSION['colorUserNav'] = $userConnect->colorUserNav;
                 $connectSuccess = true;
                 echo 'Success';
             } else {

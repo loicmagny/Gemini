@@ -9,10 +9,8 @@ include 'models/forum-model.php';
 include 'models/post-model.php';
 include 'models/advice-model.php';
 include 'models/article-model.php';
+include 'models/historic-model.php';
 include 'controllers/connection-controller.php';
-if (isset($_SESSION['connect'])) {
-    include_once 'header-profile.php';
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -46,39 +44,46 @@ if (isset($_SESSION['connect'])) {
         <link href="starter-template.css" rel="stylesheet">
     </head>
     <body>
+        <?php
+        if (isset($_SESSION['connect'])) {
+            include_once 'header-profile.php';
+        }
+        ?>
         <ul id="dropdown1" class="dropdown-content">
             <li><a href="forum.php">Forum</a></li>
             <li><a href="articles.php">Articles</a></li>
             <li><a href="advice.php">Conseils</a></li>
         </ul>
         <nav>
-            <div class="nav-wrapper">
-                <a href="index.php" class="brand-logo center">Gemini</a>
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="index.php">Accueil</a></li>
-                    <li><a href="search.php">Recherche</a></li>
-                    <li><a href="definition.php?letter=a">Glossaire</a></li>
-                    <?php if (isset($_SESSION['connect'])) { ?>
-                        <li><a href="profile.php"><?= $_SESSION['login'] ?></a></li>
-                        <?php
-                    } else {
-                        ?>
-                        <li><a class="modal-trigger" href="#modal1">Se connecter</a></li>
+            <?php if (isset($_SESSION['connect'])) { ?>
+                <div class="nav-wrapper <?= $_SESSION['colorNav']; ?>">
+                <?php } else { ?>
+                    <div class="nav-wrapper">
                     <?php } ?>
-                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Communauté<i class="material-icons right">arrow_drop_down</i></a></li>
-                </ul>
-                <ul class="side-nav" id="mobile-demo">
-                    <li><a href="index.php">Accueil</a></li>
-                    <li><a href="search.php">Recherche</a></li>
-                    <li><a href="definition.php?letter=a">Glossaire</a></li>
-                    <li><a href="connection.php">Se connecter</a></li>
-                    <li class="divider"></li>
-                    <li><a href="forum.php">Forum</a></li>
-                    <li><a href="articles.php">Articles</a></li>
-                    <li><a href="advice.php">Conseils</a></li>
-                </ul>
-            </div>
+                    <a href="index.php" class="brand-logo center">Gemini</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse hide-on-med-and-up"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="index.php">Accueil</a></li>
+                        <li><a href="search.php">Recherche</a></li>
+                        <li><a href="definition.php?letter=a">Glossaire</a></li>
+                        <?php if (!isset($_SESSION['connect'])) { ?>
+                            <li><a class="modal-trigger" href="#modal1">Se connecter</a></li>
+                        <?php } ?>
+                        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Communauté<i class="material-icons right">arrow_drop_down</i></a></li>
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+                        <li><a href="index.php">Accueil</a></li>
+                        <li><a href="search.php">Recherche</a></li>
+                        <li><a href="definition.php?letter=a">Glossaire</a></li>
+                        <?php if (!isset($_SESSION['connect'])) { ?>
+                            <li><a class="modal-trigger" href="#modal1">Se connecter</a></li>
+                        <?php } ?>
+                        <li class="divider"></li>
+                        <li><a href="forum.php">Forum</a></li>
+                        <li><a href="articles.php">Articles</a></li>
+                        <li><a href="advice.php">Conseils</a></li>
+                    </ul>
+                </div>
         </nav>
         <div id="modal1" class="modal modal-fixed-footer">
             <div class="modal-content">

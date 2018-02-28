@@ -5,9 +5,7 @@ if (isset($_SESSION['connect'])) {
     $historic->id_user = $_SESSION['id'];
     $historicList = $historic->getHistoric($_SESSION['id']);
     $historicCount = $historic->countHistoricLine($_SESSION['id']);
-    if (count($historicCount) > 10) {
-        $historic->deleteHistoric($_SESSION['id']);
-    }
+//    $historic->deleteHistoric($_SESSION['id']);
     if (isset($_GET['advice'])) {
         $historic->id_advice = $_GET['advice'];
         $addInHistoric = $historic->AddInHistoric();
@@ -17,5 +15,7 @@ if (isset($_SESSION['connect'])) {
     } else if (isset($_GET['topic'])) {
         $historic->id_topic = $_GET['topic'];
         $addInHistoric = $historic->AddInHistoric();
+    } else {
+        $empty = 'Votre historique est vide pour le moment';
     }
 }

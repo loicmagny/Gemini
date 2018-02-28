@@ -28,7 +28,7 @@ include 'controllers/post-controller.php';
         </div>
     </div>
     <?php if (isset($_SESSION['connect'])) { ?>
-        <form class="col s12" method="POST" action="#">
+        <form class="col s12" method="POST" action="#" enctype="multipart/form-data">
             <div class="row">
                 <div class="input-field col s12">
                     <input type="date" hidden class="form-control" name="date"  id="date" value="<?= date('Y-m-d'); ?>" />
@@ -42,7 +42,7 @@ include 'controllers/post-controller.php';
         </form>
         <div id="result"></div>
     <?php } ?>
-    <a class="btn-flat" href="=topic.php?page=<?= $page - 1 ?>&topic=<?= $_GET['topic'] ?>&name=<?= $_GET['name'] ?>" <?= $start <= 1 ? 'disabled' : '' ?>>Précédente</a>
+    <a class="btn-flat" href="topic.php?page=<?= $page - 1 ?>&topic=<?= $_GET['topic'] ?>&name=<?= $_GET['name'] ?>" <?= $start <= 1 ? 'disabled' : '' ?>>Précédente</a>
     <?php
     for ($pageNumber = 1; $pageNumber <= $maxPagination; $pageNumber++) {
         ?>   <a href="topic.php?page=<?= $pageNumber ?>&topic=<?= $_GET['topic'] ?>&name=<?= $_GET['name'] ?>" class="btn-flat" <?= $page == $pageNumber ? 'disabled' : '' ?>><?= $pageNumber ?></a>
