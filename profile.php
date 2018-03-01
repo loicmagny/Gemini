@@ -12,7 +12,7 @@ if (isset($_SESSION['connect'])) {
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><img src="<?= $_SESSION['profilePic']; ?>" class="responsive-img center profilePic" /></li>
                 <li class="list-group-item"><?= $_SESSION['login']; ?></li>
-                <li class="list-group-item">Date de naissance: <?= $userAge ?></li>
+                <li class="list-group-item">Date de naissance: <?= $_SESSION['birthdate'] ?></li>
                 <li class="list-group-item">Adresse mail: <?= $_SESSION['mail']; ?></li>
             </ul>
         </div>

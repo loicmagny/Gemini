@@ -2,7 +2,7 @@
 include 'controllers/historic-controller.php';
 ?>
 <div class="fixed-action-btn toolbar">
-    <a class="btn-floating btn-large <?= $_SESSION['colorUserNav']; ?>" >
+    <a class="btn-floating btn-large userToolbar <?= $_SESSION['colorUserNav']; ?>" >
         <?php if (empty($_SESSION['profilePic'])) { ?>
             <i class="material-icons">account_circle</i>
         <?php } else { ?>

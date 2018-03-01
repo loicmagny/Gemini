@@ -25,7 +25,6 @@ if (isset($_POST['submit'])) {
             $cryptedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
             password_verify($_POST['password'], $cryptedPassword);
             $user->password = $cryptedPassword;
-            
         }
     }
     if (isset($_POST['confirm'])) {
@@ -51,31 +50,29 @@ if (isset($_POST['submit'])) {
             $formError['emptyMail'] = 'Veuillez saisir une adresse mail';
         }
     }
-    if ($_FILES['file']['error'] != 4) {
-        if ($_FILES['file']['size'] <= 1000000) {
-            $fileInfo = pathinfo($_FILES['file']['name']);
-            $upload = $fileInfo['extension'];
-            $extentions = array('jpg', 'jpeg', 'gif', 'png');
-            if (in_array($upload, $extentions)) {
-                mkdir('uploads/' . $user->id, 0777, true);
-                move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $user->id . '/' . basename($_FILES['file']['name']));
-                $user->ProfilePicture = $_FILES['file'];
-            } else {
-                $formError['fileExt'] = 'L\'extension du fichier n\'est pas correcte';
-            }
-        } else {
-            $formError['fileSize'] = 'L\'image est trop grosse';
-        }
+    if (!empty($_POST['colorNav'])) {
+        $user->colorNav = htmlspecialchars($_POST['colorNav']);
+        $updateColorNav = $user->updateColorNav();
+    }
+    if (!empty($_POST['colorUserNav'])) {
+        $user->colorUserNav = htmlspecialchars($_POST['colorUserNav']);
+        $updateColorUserNav = $user->updateColorUserNav();
     }
 //On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur
     if (!$user->addUser()) {
         $formError['submit'] = 'Erreur lors de l\'ajout';
+        var_dump($user);
+        echo 'non';
     } else if (count($formError) == 0) {
+        var_dump($user);
+        echo 'oui';
         $insertSuccess = true;
         $user->login = '';
         $user->password = '';
         $user->birthdate = '';
         $user->mail = '';
+        $user->colorNav = '';
+        $user->colorUserNav = '';
         if (isset($_FILES['file'])) {
             $user->ProfilePic = '';
         }

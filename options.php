@@ -1,12 +1,14 @@
 <?php
 include 'header.php';
-include 'controllers/options-controller.php';
 ?>
 <div class="section-white">
     <h2>Options</h2>
+    <?php foreach ($updateError as $error) { ?>
+        <p><?= $error ?></p>
+    <?php } ?>
     <form action="#" method="POST" enctype="multipart/form-data">
         <div class="input-field col s12">
-            <select name="colorUserNav">
+            <select name="colorUserNav" id="colorUserNav">
                 <option value="" disabled selected>Couleur du menu utilisateur</option>
                 <option value="red">Rouge</option>
                 <option value="blue">Bleu</option>
@@ -19,7 +21,7 @@ include 'controllers/options-controller.php';
             <label>Choisissez la couleur du menu utilisateur</label>
         </div>
         <div class="input-field col s12">
-            <select name="colorNav">
+            <select name="colorNav" id="colorNav">
                 <option value="" disabled selected>Couleur du menu de navigation</option>
                 <option value="red">Rouge</option>
                 <option value="blue">Bleu</option>
@@ -41,15 +43,20 @@ include 'controllers/options-controller.php';
         </div>
         <div class="file-field input-field">
             <div class="btn">
-                <span>Modifier la photo de profil</span>
-                <input type="file" name="profilePic" multiple>
+                <span>Ajouter une photo de profil</span>
+                <input type="file" name="file" id="file" multiple>
             </div>
             <div class="file-path-wrapper">
                 <input class="file-path validate" type="text">
             </div>
         </div>
-        <input type="submit" name="update" class="btn waves green" id="update" value="Modifier">
+        <input name="update" id="update" type="submit" class="btn waves-effect waves-light green" value="Modifier"/>
     </form>
+    <div>
+        <?php foreach ($updateError as $error) { ?>
+            <p><?= $error ?></p>
+        <?php } ?>
+    </div>
 </div>
 <?php
 include 'footer.php';

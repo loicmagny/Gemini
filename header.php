@@ -11,6 +11,7 @@ include 'models/advice-model.php';
 include 'models/article-model.php';
 include 'models/historic-model.php';
 include 'controllers/connection-controller.php';
+include 'controllers/options-controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -20,6 +21,12 @@ include 'controllers/connection-controller.php';
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
+        <?php if ($sessionUpdated) { ?>
+            <!--<meta http-equiv="refresh" content="0; url=options.php" />-->
+        <?php } ?>
+        <?php if ($connectSuccess) { ?>
+            <meta http-equiv="refresh" content="0; url=index.php" />
+        <?php } ?>
         <link rel="icon" href="../../favicon.ico">
         <title>Gemini</title>
         <link href="assets/libs/materialize/dist/css/materialize.css" rel="stylesheet">

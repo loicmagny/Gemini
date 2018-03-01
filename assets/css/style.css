@@ -218,3 +218,7 @@ td{
     height: 10em;
     widht: 10em;
 }
+.secondary{
+    color: grey;
+    font-size: 12px;
+}
