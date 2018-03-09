@@ -11,6 +11,7 @@ if (isset($_POST['submit'])) {
     }
     if (isset($_POST['loginAuthor'])) {
         $topic->loginAuthor = htmlspecialchars($_POST['loginAuthor']);
+        var_dump($topic->loginAuthor);
     }
     if (isset($_POST['date'])) {
         $topic->date = htmlspecialchars($_POST['date']);
@@ -19,11 +20,10 @@ if (isset($_POST['submit'])) {
         $formError['submit'] = 'Erreur lors de la création du sujet';
         var_dump($topic);
     } else {
-        var_dump($topic);
         $insertSuccess = true;
         $topic->topic = '';
         $topic->loginAuthor = '';
         $topic->date = '';
-        echo 'oui';
     }
 }    
+

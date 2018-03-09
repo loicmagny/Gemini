@@ -2,7 +2,7 @@
 include 'header.php';
 include 'controllers/search-controller.php';
 ?>
-<div class="section-white">
+<div class="section white">
     <div class="row container">
         <div class="col s12 m12 s12 center">
             <div class="searchResult">
@@ -19,7 +19,7 @@ include 'controllers/search-controller.php';
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4"><?= $componentList->componentsname ?><i class="material-icons right">close</i></span>
-                            <p><?= $componentList->description; ?></p>
+                            <p class="flow-text"><?= $componentList->description; ?></p>
                         </div>
                     </div>
                     <?php
@@ -36,7 +36,7 @@ include 'controllers/search-controller.php';
                         </div>
                         <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4"><?= $productList->productname ?><i class="material-icons right">close</i></span>
-                            <p><?= $productList->description; ?></p>
+                            <p class="flow-text"><?= $productList->description; ?></p>
                         </div>
                     </div>
                     <?php

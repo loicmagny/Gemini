@@ -2,21 +2,23 @@
 include 'header.php';
 include 'controllers/articles-content-controller.php';
 ?>
-<h1><?= $articleContentList->title; ?></h1>
-<ul class="collection">
-    <li class="collection-item avatar">
-        <div class="row postInfo">
-            <div class="col s12 m12 l12">
-                <i class="medium material-icons  center-align">account_circle</i>
-                <span class=" center-align"><?= $articleContentList->maker; ?></span>
-                <span class="postDate right"><?= $articleContentList->date; ?></span>
+<div class="section-white container formOptions">
+    <h1><?= $articleContentList->title; ?></h1>
+    <div class="row ">
+        <div class="postInfo">
+            <div class="col s6 m2 l2">
+                <span class="postDate"><?= $articleContentList->date; ?></span>
             </div>
+            <?php if (($articleContentList->authorPic) != null) { ?>
+                <img src="<?= $articleContentList->authorPic ?>" alt="photo de profil" id="profilePic"/>
+            <?php } else { ?>
+                <i class="medium material-icons postMaker">account_circle</i>
+            <?php } ?>
+            <a href="user-profile.php?user=<?= $articleContentList->id_author; ?>" class="postMaker"><?= $articleContentList->author ?></a>
         </div>
-    <li class="divider"></li>
-    <div class="postContent">
-        <li><?= $articleContentList->content ?></li>
     </div>
-</li>
-</ul>
+    <p class="divider"></p>
+    <p class="postContent"><?= $articleContentList->content; ?></p>
+</div>
 <?php include 'footer.php'; ?>
 

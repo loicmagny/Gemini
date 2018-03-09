@@ -33,9 +33,11 @@ if (isset($_POST['connect'])) {
             $_SESSION['profilePic'] = $userConnect->profilePic;
             $_SESSION['colorNav'] = $userConnect->colorNav;
             $_SESSION['colorUserNav'] = $userConnect->colorUserNav;
+            $_SESSION['activate'] = $userConnect->activate;
+            $_SESSION['admin'] = $userConnect->admin;
             $connectSuccess = true;
         } else {
             $formError['submit'] = 'Erreur lors de la connexion';
         }
     }
-}    
+}

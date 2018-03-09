@@ -7,7 +7,20 @@ $regPassword = '/(?=^.{8,32}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/i';
 $regMail = '#[A-Z-a-z-0-9-.éàèîÏôöùüûêëç]{2,}@[A-Z-a-z-0-9éèàêâùïüëç]{2,}[.][a-z]{2,6}$#';
 $insertSuccess = false;
 $formError = array();
-if (isset($_POST['submit'])) {
+
+function chaine_aleatoire($nb_car, $chaine = 'azertyuiopqsdfghjklmwxcvbn123456789') {
+    $nb_lettres = strlen($chaine) - 1;
+    $generation = '';
+    for ($i = 0; $i < $nb_car; $i++) {
+        $pos = mt_rand(0, $nb_lettres);
+        $car = $chaine[$pos];
+        $generation .= $car;
+    }
+    return $generation;
+}
+
+$confirmCode = chaine_aleatoire(8);
+if (isset($_POST['register'])) {
     if (isset($_POST['login'])) {
         $user->login = htmlspecialchars($_POST['login']);
         if (!preg_match($regUser, $user->login)) {
@@ -23,7 +36,6 @@ if (isset($_POST['submit'])) {
             $formError['emptyPassword'] = 'Veuillez saisir un nom mot de passe';
         } else {
             $cryptedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            password_verify($_POST['password'], $cryptedPassword);
             $user->password = $cryptedPassword;
         }
     }
@@ -61,11 +73,32 @@ if (isset($_POST['submit'])) {
 //On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur
     if (!$user->addUser()) {
         $formError['submit'] = 'Erreur lors de l\'ajout';
-        var_dump($user);
-        echo 'non';
     } else if (count($formError) == 0) {
-        var_dump($user);
-        echo 'oui';
+        $user->confirmCode = $confirmCode;
+        $userMail = $_POST['mail'];
+        $userName = $_POST['login'];
+        // Mail
+        $object = 'Confirmation de votre inscription';
+        $content = '
+<html>
+<head>
+   <title>Vous vous êtes inscrit sur Gemini</title>
+</head>
+<body>
+   <p>Bonjour ' . $userName . '</p>
+   <p>Voici le code nécéssaire à la validation de l\'inscription : ' . $confirmCode . '</p>
+       <p> Rendez vous <a href="http://gemini/confirm.php">ici</a> pour confirmer votre adresse</p>
+       <p>Gardez ce code bien précieusement, il vous servira à réinitialiser votre mot de passe si vous perdez celui-ci</p>
+       </body>
+</html>';
+        $header = 'MIME-Version: 1.0' . "\r\n";
+        $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+        $header .= 'From: no-reply@gemini.fr' . "\r\n";
+//Envoi du mail
+        $confirmMail = mail($userMail, $object, $content, $header);
+        if (!$confirmMail) {
+            $formError['confirmMail'] = 'Un problème est survenu lors de l\'envoi du mail, veuillez réessayer';
+        }
         $insertSuccess = true;
         $user->login = '';
         $user->password = '';
@@ -73,8 +106,6 @@ if (isset($_POST['submit'])) {
         $user->mail = '';
         $user->colorNav = '';
         $user->colorUserNav = '';
-        if (isset($_FILES['file'])) {
-            $user->ProfilePic = '';
-        }
+        $user->confirmCode = '';
     }
 }

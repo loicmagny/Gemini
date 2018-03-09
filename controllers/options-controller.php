@@ -4,12 +4,12 @@ $sessionUpdated = false;
 $updateError = array();
 $regUser = '^(?=.{4,32}$)(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![_.])$^';
 $regBirthDate = '/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/';
-$regPassword = '/(?=^.{8,32}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/i';
 $regMail = '#[A-Z-a-z-0-9-.éàèîÏôöùüûêëç]{2,}@[A-Z-a-z-0-9éèàêâùïüëç]{2,}[.][a-z]{2,6}$#';
+$user = new user();
+$userInfo = new user();
 if (isset($_POST['update'])) {
-    $user = new user();
-    $userInfo = new user();
-    $user->id = $_SESSION['id'];
+    $user->id = $_POST['id_user'];
+    $userInfo->id = $_POST['id_user'];
     if (!empty($_POST['login'])) {
         $user->login = htmlspecialchars($_POST['login']);
         $updateLogin = $user->updateLogin();
@@ -38,8 +38,6 @@ if (isset($_POST['update'])) {
                     move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $user->id . '/' . basename($_FILES['file']['name']));
                     $user->profilePic = 'uploads/' . $user->id . '/' . $_FILES['file']['name'];
                     $updatePic = $user->updatePic();
-                    var_dump($user->profilePic);
-                    var_dump($updatePic);
                 }
             } else {
                 $updateError['fileExt'] = 'L\'extension du fichier n\'est pas correcte';
@@ -61,8 +59,7 @@ if (isset($_POST['update'])) {
         $user->colorUserNav = $_SESSION['colorUserNav'];
     }
     if (count($updateError) == 0) {
-        $userInfo->getUserInfo($user->id);
-        var_dump($userInfo);
+        $userOptions = $userInfo->getUserInfo();
         $_SESSION['connect'] = $_POST['update'];
         $_SESSION['id'] = $userInfo->id;
         $_SESSION['login'] = $userInfo->login;
@@ -75,4 +72,26 @@ if (isset($_POST['update'])) {
         $sessionUpdated = true;
     }
 }
-var_dump($_SESSION);
+if (isset($_POST['delete'])) {
+    $user = new user();
+    $password = new user();
+    $password->login = $_SESSION['login'];
+    $user->id = $_SESSION['id'];
+    if (isset($_POST['deletionPassword'])) {
+        $password->getCryptedPassword();
+        $passwordVerified = password_verify($_POST['deletionPassword'], $password->password);
+        if ($passwordVerified) {
+            $user->password = $password->password;
+        }
+    } else if (empty($_POST['deletionPassword'])) {
+        $updateError['emptyPassword'] = 'Veuillez entrer un mot de passe';
+    } else {
+        $updateError['passwordCheck'] = 'Le mot de passe est incorrect.';
+    }
+    $deactivateUser = $user->deactivateUser();
+    if ($deactivateUser) {
+        session_destroy();
+        header('location: index.php');
+        exit;
+    }
+}

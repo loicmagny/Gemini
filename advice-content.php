@@ -2,20 +2,23 @@
 include 'header.php';
 include 'controllers/advice-content-controller.php'
 ?>
-<div class="section white">
-    <?php foreach ($adviceContent as $content) { ?>
-        <div class="row">
-            <div class="col s12 m12">
-                <div class="card blue-grey darken-1 center">
-                    <div class="card-content white-text">
-                        <span class="card-title"><?= $content->loginAuthor; ?></span>
-                        <span class="card-title"><?= $content->title . ' écrit le ' . $content->date; ?></span>
-                        <p><?= $content->content; ?></p>
-                    </div>
-                </div>
+<div class="section white container formOptions">
+    <div class="row ">
+        <div class="postInfo">
+            <div class="col s6 m2 l2">
+                <span class="postDate"><?= $adviceContent->date; ?></span>
             </div>
+            <?php if (($adviceContent->authorPic) != null) { ?>
+                <img src="<?= $adviceContent->authorPic ?>" alt="photo de profil" id="profilePic"/>
+            <?php } else { ?>
+                <i class="medium material-icons postMaker">account_circle</i>
+            <?php } ?>
+            <a href="user-profile.php?user=<?= $adviceContent->id_author; ?>" class="postMaker"><?= $adviceContent->author ?></a>
+            <p><?= $adviceContent->title; ?></p>
         </div>
-    <?php } ?>
+    </div>
+    <p class="divider"></p>
+    <p><?= $adviceContent->content; ?></p>
 </div>
 <?php
 include 'footer.php';

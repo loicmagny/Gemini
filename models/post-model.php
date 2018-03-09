@@ -7,6 +7,8 @@ class post extends dataBase {
     public $postmaker = '';
     public $topicid = 1;
     public $date = '01/01/1900';
+    public $id_author = 0;
+    public $authorPic = '';
 
     public function __construct() {
         parent::__construct();
@@ -14,32 +16,20 @@ class post extends dataBase {
 
     public function addPost() {
 //On prépare la requête sql qui insert dans les champs selectionnés, les valeurs sont des marqueurs nominatifs
-        $query = 'INSERT INTO `' . self::PREFIX . 'topic`(`post`, `postmaker`, `topicid`, `date`) VALUES (:post, :postmaker, :topicid, :date)';
+        $query = 'INSERT INTO `' . self::PREFIX . 'topic`(`post`, `postmaker`, `topicid`, `date`, `id_author`, `authorPic`) VALUES (:post, :postmaker, :topicid, :date, :id_author, :authorPic)';
         $addPost = $this->db->prepare($query);
         $addPost->bindValue(':post', $this->post, PDO::PARAM_STR);
         $addPost->bindValue(':postmaker', $this->postmaker, PDO::PARAM_STR);
         $addPost->bindValue(':topicid', $this->topicid, PDO::PARAM_INT);
         $addPost->bindValue(':date', $this->date, PDO::PARAM_STR);
+        $addPost->bindValue(':id_author', $this->id_author, PDO::PARAM_INT);
+        $addPost->bindValue(':authorPic', $this->authorPic, PDO::PARAM_STR);
 //Si l'insertion s'est correctement déroulée on retourne vrai$
         return $addPost->execute();
     }
 
-    public function getPostsList() {
-        $postList = array();
-        $query = 'SELECT `id`, `post`, `postmaker`, `topicid`, DATE_FORMAT(`date`, "%d/%m/%Y") AS date FROM `' . self::PREFIX . 'topic` WHERE topicid = :topicid';
-        $postResult = $this->db->prepare($query);
-        $postResult->bindValue(':topicid', $this->topicid, PDO::PARAM_INT);
-        $postResult->execute();
-        if ($postResult->execute()) {
-            $postList = $postResult->fetchAll(PDO::FETCH_OBJ);
-        } else {
-            $postList = false;
-        }
-        return $postList;
-    }
-
     public function getPostListPagination($offset) {
-        $query = 'SELECT `id`, `post`, `postmaker`, `topicid`, DATE_FORMAT(`date`, "%d/%m/%Y") AS date FROM `' . self::PREFIX . 'topic` WHERE topicid = :topicid LIMIT 25 OFFSET :offset ';
+        $query = 'SELECT `id`, `post`, `postmaker`, `topicid`, `id_author`, `authorPic`, DATE_FORMAT(`date`, "%d/%m/%Y") AS date FROM `' . self::PREFIX . 'topic` WHERE topicid = :topicid LIMIT 25 OFFSET :offset ';
         $postResult = $this->db->prepare($query);
         $postResult->bindValue(':offset', $offset, PDO::PARAM_INT);
         $postResult->bindValue(':topicid', $this->topicid, PDO::PARAM_INT);

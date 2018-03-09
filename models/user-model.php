@@ -10,6 +10,9 @@ class user extends dataBase {
     public $profilePic = '';
     public $colorNav = '';
     public $colorUserNav = '';
+    public $confirmCode = '';
+    public $activate = 0;
+    public $admin = 0;
 
     public function __construct() {
         parent::__construct();
@@ -17,21 +20,40 @@ class user extends dataBase {
 
     public function addUser() {
 //On prépare la requête sql qui insert dans les champs selectionnés, les valeurs sont des marqueurs nominatifs
-        $query = 'INSERT INTO `' . self::PREFIX . 'user` (`login`, `password`, `birthdate`, `mail`, `profilePic`, colorNav, colorUserNav) VALUES (:login, :password, :birthdate, :mail, :profilePic, :colorNav, :colorUserNav)';
+        $query = 'INSERT INTO `' . self::PREFIX . 'user` (`login`, `password`, `birthdate`, `mail`, `colorNav`, `colorUserNav`, `confirmCode`) VALUES (:login, :password, :birthdate, :mail, :colorNav, :colorUserNav, :confirmCode)';
         $addUser = $this->db->prepare($query);
         $addUser->bindValue(':login', $this->login, PDO::PARAM_STR);
         $addUser->bindValue(':password', $this->password, PDO::PARAM_STR);
         $addUser->bindValue(':birthdate', $this->birthdate, PDO::PARAM_STR);
         $addUser->bindValue(':mail', $this->mail, PDO::PARAM_STR);
-        $addUser->bindValue(':profilePic', $this->profilePic, PDO::PARAM_STR);
         $addUser->bindValue(':colorUserNav', $this->colorUserNav, PDO::PARAM_STR);
         $addUser->bindValue(':colorNav', $this->colorNav, PDO::PARAM_STR);
+        $addUser->bindValue(':confirmCode', $this->confirmCode, PDO::PARAM_STR);
 //Si l'insertion s'est correctement déroulée on retourne vrai
         return $addUser->execute();
     }
 
+    public function confirmUser() {
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `activate` = 1 WHERE `login` = :login AND `confirmCode` = :confirmCode AND `password` = :password ';
+        $confirmUser = $this->db->prepare($query);
+        $confirmUser->bindValue(':confirmCode', $this->confirmCode, PDO::PARAM_STR);
+        $confirmUser->bindValue(':login', $this->login, PDO::PARAM_STR);
+        $confirmUser->bindValue(':password', $this->password, PDO::PARAM_STR);
+//Si l'insertion s'est correctement déroulée, on retourne vrai
+        return $confirmUser->execute();
+    }
+
+    public function deactivateUser() {
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `activate` = 0 WHERE `id` = :id AND `password` = :password';
+        $deactivateUser = $this->db->prepare($query);
+        $deactivateUser->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $deactivateUser->bindValue(':password', $this->password, PDO::PARAM_STR);
+//Si l'insertion s'est correctement déroulée, on retourne vrai
+        return $deactivateUser->execute();
+    }
+
     public function userConnect() {
-        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav` FROM `' . self::PREFIX . 'user` WHERE `login` = :login AND `password` = :password';
+        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav`, `confirmCode`, `admin`, `activate` FROM `' . self::PREFIX . 'user` WHERE `login` = :login AND `password` = :password';
         $userConnect = $this->db->prepare($query);
         $userConnect->bindValue(':login', $this->login, PDO::PARAM_STR);
         $userConnect->bindValue(':password', $this->password, PDO::PARAM_STR);
@@ -60,11 +82,22 @@ class user extends dataBase {
         }
     }
 
-    public function getUserInfo($user_id) {
+    public function getUserProfile() {
+        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav` FROM `' . self::PREFIX . 'user` WHERE `id` = :id';
+        $getUserProfile = $this->db->prepare($query);
+        $getUserProfile->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $getUserProfile->execute();
+        if ($getUserProfile->execute()) {
+            $userProfile = $getUserProfile->fetch(PDO::FETCH_OBJ);
+        }
+        return $userProfile;
+    }
+
+    public function getUserInfo() {
         $isCorrect = false;
-        $query = 'SELECT `id`, `login`, `password`, `birthdate`, `mail`, `profilePic`, `colorNav`, `colorUserNav` FROM `' . self::PREFIX . 'user` WHERE `id` = :id';
+        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav` FROM `' . self::PREFIX . 'user` WHERE `id` = :id';
         $getUserInfo = $this->db->prepare($query);
-        $getUserInfo->bindValue(':id', $user_id, PDO::PARAM_INT);
+        $getUserInfo->bindValue(':id', $this->id, PDO::PARAM_INT);
         $getUserInfo->execute();
         if ($getUserInfo->execute()) {
             if (is_object($getUserInfo)) {
@@ -122,6 +155,17 @@ class user extends dataBase {
         $updateColorNav->bindValue(':colorNav', $this->colorNav, PDO::PARAM_STR);
 //Si l'insertion s'est correctement déroulée, on retourne vrai
         return $updateColorNav->execute();
+    }
+
+    public function passwordForgotten() {
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `password` = :password WHERE `login` = :login AND `mail` = :mail AND confirmCode = :confirmCode';
+        $passwordForgotten = $this->db->prepare($query);
+        $passwordForgotten->bindValue(':password', $this->password, PDO::PARAM_STR);
+        $passwordForgotten->bindValue(':login', $this->login, PDO::PARAM_STR);
+        $passwordForgotten->bindValue(':mail', $this->mail, PDO::PARAM_STR);
+        $passwordForgotten->bindValue(':confirmCode', $this->confirmCode, PDO::PARAM_STR);
+//Si l'insertion s'est correctement déroulée, on retourne vrai
+        return $passwordForgotten->execute();
     }
 
     public function updateColorUserNav() {

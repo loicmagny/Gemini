@@ -16,7 +16,7 @@ class forum extends dataBase {
         $query = 'INSERT INTO `' . self::PREFIX . 'forum`(`topic`, `loginAuthor`, `date`) VALUES(:topic, :loginAuthor, :date)';
         $addTopic = $this->db->prepare($query);
         $addTopic->bindValue(':topic', $this->topic, PDO::PARAM_STR);
-        $addTopic->bindValue(':loginAuthor', $this->idmaker, PDO::PARAM_STR);
+        $addTopic->bindValue(':loginAuthor', $this->loginAuthor, PDO::PARAM_STR);
         $addTopic->bindValue(':date', $this->date, PDO::PARAM_STR);
         $addTopic->execute();
 //Si l'insertion s'est correctement déroulée on retourne vrai

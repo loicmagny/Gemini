@@ -2,7 +2,7 @@
 include 'header.php';
 include 'controllers/advice-controller.php';
 ?>
-<div class="section white">
+<div class="section white container formOptions">
     <h1>Conseils</h1>
     <table class="table table-striped table-hover center tableCommunity">
         <thead>
@@ -17,7 +17,7 @@ include 'controllers/advice-controller.php';
             <?php foreach ($adviceList as $advice) { ?>
                 <tr class="success center tableCommunity">
                     <td><a href="advice-content.php?advice=<?= $advice->id ?>"><?= $advice->title; ?></a></td>
-                    <td><?= $advice->loginAuthor; ?></td>
+                    <td><?= $advice->author; ?></td>
                     <td><?= $advice->date; ?></td>
                 </tr>
             <?php } ?>

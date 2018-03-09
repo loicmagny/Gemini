@@ -1,11 +1,15 @@
 <?php
 
-$historic = new historic();
+$clear = false;
 if (isset($_SESSION['connect'])) {
+    $historic = new historic();
     $historic->id_user = $_SESSION['id'];
     $historicList = $historic->getHistoric($_SESSION['id']);
     $historicCount = $historic->countHistoricLine($_SESSION['id']);
-//    $historic->deleteHistoric($_SESSION['id']);
+    if (isset($_POST['clear'])) {
+        $historic->deleteHistoric($_SESSION['id']);
+        $clear = true;
+    }
     if (isset($_GET['advice'])) {
         $historic->id_advice = $_GET['advice'];
         $addInHistoric = $historic->AddInHistoric();

@@ -1,12 +1,15 @@
 <?php
 include'header.php';
-include 'controllers/advice-controller.php';
+include 'controllers/add-advice-controller.php';
 if (isset($_SESSION['connect'])) {
     ?>
-    <div class="section white">
+    <div class="section white container formOptions">
         <h1>Ajouter un conseil</h1>
         <form action="#" method="POST">
             <input type="date" hidden class="form-control" name="date" value="<?= date('Y-m-d'); ?>" />
+            <input type="text" hidden class="form-control" name="author" value="<?= $_SESSION['login']; ?>" />
+            <input type="text" hidden class="form-control" name="id_author" value="<?= $_SESSION['id']; ?>" />
+            <input type="text" hidden class="form-control" name="authorPic" value="<?= $_SESSION['profilePic']; ?>" />
             <div class="input-field col s6">
                 <input id="title" type="text" name="title" class="validate">
                 <label for="title">Titre</label>
@@ -15,8 +18,7 @@ if (isset($_SESSION['connect'])) {
                 <textarea id="content" name="content" class="materialize-textarea"></textarea>
                 <label for="content">Contenu</label>
             </div>
-            <input type="text" hidden class="form-control" name="loginAuthor" value="<?= $_SESSION['login'] ?>" />
-            <button type="submit" name="submit" class="btn btn-primary">Ajouter l'article</button>
+            <input type="submit" name="submit" class="btn btn-primary" value="Publier l'article" />
         </form>
     </div>
     <?php

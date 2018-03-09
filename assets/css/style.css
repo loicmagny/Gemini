@@ -2,12 +2,21 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    position: relative;
 }
+
 main {
     flex: 1 0 auto;
 }
+footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 nav{
-    margin-top: 1.3em;
+    top: 0;
+    z-index: 10;
 }
 .brand-logo{
     font-family: 'Libre Barcode 39 Text', cursive;
@@ -17,35 +26,29 @@ nav{
     display: flex;
     align-content: center;
 }
-.slider{
-    z-index: -1;
-}
 .material-icons.settings, .material-icons.cancel { 
     color: rgba(0, 0, 0, 0.54); 
 }
 h1{
-    font-family: 'Montserrat Subrayada', sans-serif;
+    font-family: 'Electrolize', sans-serif;
     font-size: 30px;
     text-align: center;
 }
 h2{
-    font-family: 'Cormorant SC', serif;
+    font-family: 'Electrolize', sans-serif;
     font-size: 25px;
+    text-align: center;
+}
+p, th, td{
+    font-family: 'Questrial', sans-serif;
+    font-size: 20px;
     text-align: center;
     color: black;
 }
-p{
-    font-family: 'Berkshire Swash', cursive;
+a, li, input, button{
+    font-family: 'Questrial', sans-serif;
+    font-size: 20px;
     text-align: center;
-    font-size:22px;
-    color: black;
-}
-th{
-    font-family: 'Nova Cut', cursive;
-    font-size: 25px;
-}
-td{
-    font-family: 'Nova Cut', cursive;
 }
 .search{
     display: inline;
@@ -75,18 +78,14 @@ td{
     flex-direction: column;
     justify-content: center;
 }
+.profilePic{
+    width: 10%;
+    justify-content: center;
+}
 .register{
     display: flex;
     justify-content: center;
     align-self: first baseline;
-}
-.carousel-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-.carousel-body {
-    margin-bottom: 1rem;
 }
 button{
     font-family: 'Iceberg', cursive;
@@ -118,17 +117,6 @@ legend, input{
     flex-direction: column;
     text-align: center;
 }
-.footer{
-    margin-top: 5%;
-    bottom: auto;
-    width: 100%;
-    text-align: center;
-    position: absolute;
-    background-color: #375A7F;
-}
-.footer ul{
-    list-style-type: none
-}
 .info{
     padding: 6%;
     text-align: center;
@@ -148,10 +136,6 @@ legend, input{
     align-items: center;
     text-align: center;
 }
-td{
-    margin: 4% auto;
-}
-
 .def{
     text-align: center;
 }
@@ -165,23 +149,19 @@ td{
 .postInfo{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
 }
 .postDate{
-    display: inherit;
+    float: right;
     font-size: 10px;
     color:grey;
 }
-.postMaker{
+.postMaker {
     display: inherit;
-    justify-content: center;
-    float: left;
 }
 .postContent{
     height: 12em;
     display: inherit;
-    float: left;
-    margin: 0.5em 0.5em;
 }
 #toast-container .toast::after {
     font-family: 'Material Icons';
@@ -202,8 +182,13 @@ td{
     justify-content: center;
 }
 .letter{
-    margin: 1em;
-    background-color: purple; 
+    margin: 1.5em auto;
+    text-align: center;
+}
+.letter:hover{
+    background-color: blueviolet;
+    border-radius: 70%;
+    color: white;
     text-align: center;
 }
 .infos{
@@ -214,11 +199,21 @@ td{
 .card{
     height: 25em;
 }
-.toolbarPic{
-    height: 10em;
-    widht: 10em;
-}
 .secondary{
     color: grey;
     font-size: 12px;
+}
+.formOptions{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+.clear{
+    bottom: 5em;
+}
+
+#profilePic{
+    width: 10%;
+    float: left;
 }

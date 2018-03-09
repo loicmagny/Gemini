@@ -106,7 +106,7 @@ WHERE
     }
 
     public function deleteHistoric($user_id) {
-        $query = 'DELETE FROM `' . self::PREFIX . 'historic` WHERE id_user = :id_user LIMIT 10';
+        $query = 'DELETE FROM `' . self::PREFIX . 'historic` WHERE id_user = :id_user';
         $historicLineCount = $this->db->prepare($query);
         $historicLineCount->bindValue('id_user', $user_id, PDO::PARAM_INT);
         $historicLineCount->execute();

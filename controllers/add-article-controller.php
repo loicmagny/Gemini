@@ -7,15 +7,21 @@ if (isset($_POST['submit'])) {
     if (isset($_POST['title'])) {
         $article->title = htmlspecialchars($_POST['title']);
     } else if (empty($_POST['title'])) {
-        $formError['emptyTitle'] = 'Votre article n\'a pas de titre!';
+        $formError['emptyTitle'] = 'Votre message n\'a pas de titre!';
     }
     if (isset($_POST['content'])) {
         $article->content = htmlspecialchars($_POST['content']);
     } else if (empty($_POST['content'])) {
-        $formError['emptyContent'] = 'Votre article n\'a pas de contenu!';
+        $formError['emptyContent'] = 'Votre message n\'a pas de contenu!';
     }
-    if (isset($_POST['makerid'])) {
-        $article->makerid = htmlspecialchars($_POST['makerid']);
+    if (isset($_POST['author'])) {
+        $article->author = htmlspecialchars($_POST['author']);
+    }
+    if (isset($_POST['id_author'])) {
+        $article->id_author = htmlspecialchars($_POST['id_author']);
+    }
+    if (isset($_POST['authorPic'])) {
+        $article->authorPic = htmlspecialchars($_POST['authorPic']);
     }
     if (isset($_POST['date'])) {
         $article->date = htmlspecialchars($_POST['date']);
@@ -28,6 +34,8 @@ if (isset($_POST['submit'])) {
         $article->title = '';
         $article->content = '';
         $article->date = '';
-        $article->makerid = '';
+        $article->author = '';
+        $article->id_author = '';
+        $article->authorPic = '';
     }
 }

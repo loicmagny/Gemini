@@ -2,9 +2,9 @@
 include 'header.php';
 include 'controllers/article-controller.php';
 ?>
-<div class="section white">
+<div class="section white container formOptions">
     <h2>Articles</h2>
-    <table class="table table-striped table-hover center tableCommunity">
+    <table class="table table-striped table-hover center tableCommunity responsive">
         <thead>
             <tr>
                 <th>Nom de l'article</th>
@@ -18,7 +18,7 @@ include 'controllers/article-controller.php';
             foreach ($articleList as $article) {
                 ?>  <tr class="success center tableCommunity">
                     <td><a href="articles-content.php?article=<?= $article->id; ?>"><?= $article->title; ?></a></td>
-                    <td><?= $article->maker; ?></td>
+                    <td><?= $article->author; ?></td>
                     <td><?= $article->date; ?></td>
                 </tr>
                 <?php

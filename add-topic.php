@@ -3,7 +3,7 @@ include 'header.php';
 include 'controllers/forum-controller.php';
 if (isset($_SESSION['connect'])) {
     ?>
-    <div class="section white">
+    <div class="section white container formOptions">
         <h1>Créer un topic</h1>
         <form action="#" method="POST">
             <input type="date" hidden class="form-control" name="date" value="<?= date('Y-m-d'); ?>" />

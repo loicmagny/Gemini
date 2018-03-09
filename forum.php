@@ -2,9 +2,9 @@
 include 'header.php';
 include 'controllers/forum-controller.php';
 ?>
-<div class="section white">
+<div class="section white container formOptions">
     <h1>Forum</h1>
-    <table class="table table-striped table-hover center tableCommunity">
+    <table class="table table-striped table-hover center tableCommunity responsive-table">
         <thead>
             <tr>
                 <th>Nom du topic</th>
