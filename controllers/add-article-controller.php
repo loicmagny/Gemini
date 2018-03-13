@@ -1,5 +1,5 @@
 <?php
-
+//On instancie la class article()
 $article = new article();
 $insertSuccess = false;
 $formError = array();
@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
     if (isset($_POST['date'])) {
         $article->date = htmlspecialchars($_POST['date']);
     }
-//On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur
+//On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur lors de l'éxécution de la méthode addArticle()
     if (!$article->addArticle()) {
         $formError['submit'] = 'Erreur lors de l\'ajout';
     } else if (count($formError) == 0) {

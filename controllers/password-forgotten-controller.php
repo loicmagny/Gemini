@@ -1,5 +1,5 @@
 <?php
-
+//On instancie la classe user()
 $user = new user();
 $regPassword = '/(?=^.{8,32}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/i';
 $formError = array();
@@ -21,7 +21,9 @@ if (isset($_POST['forget'])) {
         } else if (empty($_POST['password'])) {
             $formError['emptyPassword'] = 'Veuillez saisir un nom mot de passe';
         } else {
+            //Si le mot de passe correspond à la regex et si l'input n'est pas vide, on chiffre le mot de passe
             $cryptedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            //On attribue le mot de passe chiffré à l'attribut password
             $user->password = $cryptedPassword;
         }
     }
@@ -38,6 +40,7 @@ if (isset($_POST['forget'])) {
         $confirmError['invalidCode'] = 'Le code entré n\'est pas valide';
     }
     if (count($formError) == 0) {
+        //On appelle la méthode passwordForgotten()
         $forgottenPassword = $user->passwordForgotten();
         $user->login = '';
         $user->password = '';

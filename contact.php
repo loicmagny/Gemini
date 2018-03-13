@@ -22,7 +22,7 @@ include 'controllers/contact-controller.php'
         <button type="submit" name="contact" class="btn btn-flat">Envoyer</button>
     </form>
     <p class="formValid">
-        <?php if ($insertSuccess) { ?>
+        <?php if ($sendSuccess) { ?>
         <p class="black-text">Envoi réussi</p>
         <?php
     }

@@ -43,7 +43,7 @@ class post extends dataBase {
      */
 
     public function getPostListPagination($offset) {
-        $query = 'SELECT `id`, `post`, `postmaker`, `topicid`, `id_author`, `authorPic`, DATE_FORMAT(`date`, "%d/%m/%Y") AS date FROM `' . self::PREFIX . 'topic` WHERE topicid = :topicid OFFSET :offset ';
+        $query = 'SELECT `id`, `post`, `postmaker`, `topicid`, `id_author`, `authorPic`, DATE_FORMAT(`date`, "%d/%m/%Y") AS date FROM `' . self::PREFIX . 'topic` WHERE topicid = :topicid LIMIT 25 OFFSET :offset';
         $postResult = $this->db->prepare($query);
         $postResult->bindValue(':offset', $offset, PDO::PARAM_INT);
         $postResult->bindValue(':topicid', $this->topicid, PDO::PARAM_INT);

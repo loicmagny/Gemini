@@ -1,17 +1,22 @@
 <?php
 
+//On instance la classe user()
 $user = new user();
-$regUser = '^(?=.{4,32}$)(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![_.])$^';
-$regBirthDate = '/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/';
-$regPassword = '/(?=^.{8,32}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/i';
+$regUser = '^(?=.{4,32}$)(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![_.])$^'; //Regex permettant de contrôler la forme des logins
+$regBirthDate = '/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/'; //Regex permettant de contrôler la forme de la date naissance
+$regPassword = '/(?=^.{8,32}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/i'; //Regex permettant de contrôler la forme du mot de passe
 $insertSuccess = false;
 $formError = array();
 if (isset($_POST['register'])) {
     if (isset($_POST['login'])) {
+        //On attibue à l'attribut login la valeur de l'input nommé login
         $user->login = htmlspecialchars($_POST['login']);
-        if (!preg_match($regUser, $user->login)) {
+        //Si la valeur de l'input login ne correspond pas à la regex,
+        if (!preg_match($regUser, $_POST['login'])) {
+            //On affiche un message d'erreur
             $formError['login'] = 'Le nom d\'utilisateur n\'est pas correct';
         } else if (empty($_POST['login'])) {
+            //Si l'input login est vide on affiche un message d'erreur
             $formError['emptyLogin'] = 'Veuillez saisir un nom d\'utilisateur';
         }
     }
@@ -21,12 +26,16 @@ if (isset($_POST['register'])) {
         } else if (empty($_POST['password'])) {
             $formError['emptyPassword'] = 'Veuillez saisir un nom mot de passe';
         } else {
+            //Si l'input password n'est pas vide et que la valeur correspond à la regex 
             $cryptedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            //On chiffre le mot de passe et on le lie à l'attribut password
             $user->password = $cryptedPassword;
         }
     }
     if (isset($_POST['confirm'])) {
+        //Si les valeurs des input confirm et password diffèrent,
         if ($_POST['password'] != $_POST['confirm']) {
+            //On affiche une erreur
             $formError['confirm'] = 'Les mots de passe sont différents';
         } else if (empty($_POST['confirm'])) {
             $formError['emptyConfirm'] = 'Veuillez confirmer votre mot de passe';
@@ -40,32 +49,38 @@ if (isset($_POST['register'])) {
             $formError['emptyBirthdate'] = 'Veuillez rentrer votre date de naissance';
         }
     }
+    //Si l'adresse mail n'est pas vide et est bien une adresse mail, 
     if (isset($_POST['mail']) && filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
-        $user->mail = htmlspecialchars($_POST['mail']);
+        $user->mail = htmlspecialchars($_POST['mail']);// on attribue la valeur de l'input à l'attribut mail
     } else if (empty($_POST['mail'])) {
         $formError['emptyMail'] = 'Veuillez saisir une adresse mail';
     } else {
         $formError['mail'] = 'L\'adresse mail n\'est pas correcte';
     }
+    //Si la couleur de la barre de navigation est selectionné
     if (!empty($_POST['colorNav'])) {
+        //On la lie à l'attribut ColorNav
         $user->colorNav = htmlspecialchars($_POST['colorNav']);
-        $updateColorNav = $user->updateColorNav();
+//        $updateColorNav = $user->updateColorNav();
     } else {
+        //Sinon on laisse l'attribut vide
         $user->colorNav = '';
     }
     if (!empty($_POST['colorUserNav'])) {
         $user->colorUserNav = htmlspecialchars($_POST['colorUserNav']);
-        $updateColorUserNav = $user->updateColorUserNav();
+//        $updateColorUserNav = $user->updateColorUserNav();
     } else {
         $user->colorUserNav = '';
     }
-//On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur
+//Si l'ajout ne se fait pas,
     if (!$user->addUser()) {
+        //On affiche une erreur
         $formError['submit'] = 'Erreur lors de l\'ajout';
-    } else if (count($formError) == 0) {
+    } else {
         $insertSuccess = true;
-        if($insertSuccess){
-            function chaine_aleatoire($nb_car, $chaine = 'ABCDEFGHIJQLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') {
+        if ($insertSuccess) {
+            //Sinon, la fonction random_string génère le code de confirmation à envoyer par mail
+            function random_string($nb_car, $chaine = 'ABCDEFGHIJQLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') {
                 $nb_lettres = strlen($chaine) - 1;
                 $generation = '';
                 for ($i = 0; $i < $nb_car; $i++) {
@@ -75,13 +90,14 @@ if (isset($_POST['register'])) {
                 }
                 return $generation;
             }
-
-            $confirmCode = chaine_aleatoire(8);
+            //On attribue le résultat de random_string à la variale $confirmCode qu'on lie à l'attribut confirmCode
+            $confirmCode = random_string(8);
             $user->confirmCode = $confirmCode;
+            //On définit les différents éléments du mail à envoyer à l'utilisateur
             $userMail = $_POST['mail'];
             $userName = $_POST['login'];
-// Mail
             $object = 'Confirmation de votre inscription';
+            //On écrit le conten HTML du mail
             $content = '
 <html>
 <head>
@@ -97,9 +113,9 @@ if (isset($_POST['register'])) {
             $header = 'MIME-Version: 1.0' . "\r\n";
             $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
             $header .= 'From: no-reply@gemini.fr' . "\r\n";
-//Envoi du mail
+//On envoie le mail
             $confirmMail = mail($userMail, $object, $content, $header);
-            if (!$confirmMail) {
+            if (!$confirmMail) {//Si le mail ne s'envoie pas on affiche une erreur
                 $formError['confirmMail'] = 'Un problème est survenu lors de l\'envoi du mail, veuillez réessayer';
             }
             $user->login = '';
@@ -110,6 +126,5 @@ if (isset($_POST['register'])) {
             $user->colorUserNav = '';
             $user->confirmCode = '';
         }
-
     }
 }

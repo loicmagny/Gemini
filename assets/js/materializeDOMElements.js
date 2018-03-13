@@ -1,3 +1,7 @@
+/*
+ * Ce fichier contient toutes les fonctions relatives au framework Materialize
+ */
+
 $(document).ready(function () {
     $('.button-collapse').sideNav();
 });

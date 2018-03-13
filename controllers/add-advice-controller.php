@@ -1,5 +1,6 @@
 <?php
 
+//On instancie la classe advice()
 $advice = new advice();
 $insertSuccess = false;
 $formError = array();
@@ -26,7 +27,7 @@ if (isset($_POST['submit'])) {
     if (isset($_POST['date'])) {
         $advice->date = htmlspecialchars($_POST['date']);
     }
-//On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur
+//On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur lors de l'appel de la méthode addAdvice()
     if (!$advice->addAdvice()) {
         $formError['submit'] = 'Erreur lors de l\'ajout';
     } else if (count($formError) == 0) {

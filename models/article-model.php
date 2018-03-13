@@ -1,8 +1,10 @@
 <?php
+
 /*
  * La classe article contient toutes les méthodes concernant les articles de la base de données
  * Elle est enfant de dataBase
  */
+
 class article extends dataBase {
 
     public $id = 0;
@@ -16,9 +18,11 @@ class article extends dataBase {
     public function __construct() {
         parent::__construct();
     }
-/*
- * Cette méthode permet d'ajouter un article dans la base de données
- */
+
+    /*
+     * Cette méthode permet d'ajouter un article dans la base de données
+     */
+
     public function addArticle() {
         $query = 'INSERT INTO `' . self::PREFIX . 'articles`(`title`, `content`, `date`, `author`, `id_author`, `authorPic`) VALUES (:title, :content, :date, :author, :id_author, :authorPic)';
         $addArticle = $this->db->prepare($query);
@@ -30,9 +34,11 @@ class article extends dataBase {
         $addArticle->bindValue(':authorPic', $this->authorPic, PDO::PARAM_STR);
         return $addArticle->execute();
     }
-/*
- * Cette méthode permet de récupérer la liste des articles et de leurs auteurs contenus dans la base de données
- */
+
+    /*
+     * Cette méthode permet de récupérer la liste des articles et de leurs auteurs contenus dans la base de données
+     */
+
     public function getArticlesList() {
         $articleList = array();
         $query = 'SELECT `id`, `title`, `content`,  DATE_FORMAT(`date`, "%d/%m/%Y") AS date, `author` FROM `' . self::PREFIX . 'articles`';
@@ -42,9 +48,11 @@ class article extends dataBase {
         }
         return $articleList;
     }
-/*
- * Cette méthode permet de récupérer et d'afficher, dans la vue, le contenu et l'auteur de l'article selectionné 
- */
+
+    /*
+     * Cette méthode permet de récupérer et d'afficher, dans la vue, le contenu et l'auteur de l'article selectionné 
+     */
+
     public function getArticlesContent() {
         $articleContentList = array();
         $query = 'SELECT `id`, `title`, `content`,  DATE_FORMAT(`date`, "%d/%m/%Y") AS date, `author`, `id_author`, `authorPic` FROM `' . self::PREFIX . 'articles` WHERE id = :id';
@@ -55,6 +63,10 @@ class article extends dataBase {
             $articleContentList = $articleContentResult->fetch(pdo::FETCH_OBJ);
         }
         return $articleContentList;
+    }
+
+    function __destruct() {
+        
     }
 
 }

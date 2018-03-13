@@ -13,6 +13,7 @@ include 'models/historic-model.php';
 include 'controllers/connection-controller.php';
 include 'controllers/historic-controller.php';
 include 'controllers/options-controller.php';
+include 'controllers/confirm-controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -25,7 +26,7 @@ include 'controllers/options-controller.php';
         <?php if ($clear) { ?>
             <meta http-equiv="refresh" content="0; url=historic.php" />
         <?php } ?>
-            <?php if ($sessionUpdated) { ?>
+        <?php if ($sessionUpdated) { ?>
             <meta http-equiv="refresh" content="0; url=profile.php" />
         <?php } ?>
         <?php if ($connectSuccess) { ?>

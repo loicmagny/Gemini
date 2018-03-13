@@ -1,7 +1,9 @@
 <?php 
-
+//On instancie la classe forum()
 $topics = new forum();
+//On appelle la méthode getTopicsList() afin de récupérer la liste des sujets
 $topicsList = $topics->getTopicsList();
+//On instancie la classe forum()
 $topic = new forum();
 $insertSuccess = false;
 $formError = array();
