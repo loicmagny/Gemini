@@ -1,6 +1,7 @@
 <?php
 
 $insertSuccess = false;
+$getPosts = false;
 $formError = array();
 if (isset($_POST['ajax'])) {
     include '../models/dataBase.php';
@@ -56,8 +57,18 @@ if (isset($_POST['ajax'])) {
     $topicid = $_GET['topic'];
     $post->topicid = $topicid;
 //appel de la méthode getPostListPagination
-    $postListPage = $post->getPostListPagination($start, $topicid);
-//appel de la méthode countPost
+    //appel de la méthode countPost
     $postCount = $post->countPost();
-    $maxPagination = ceil($postCount->numberPost / $limit);
+    if ($postCount === 0) {
+        $formError['noPosts'] = 'Le topic est vide';
+        $getPosts = false;
+    } else {
+        $postListPage = $post->getPostListPagination($start);
+        if (empty($postListPage)) {
+            $getPosts = false;
+        } else {
+            $getPosts = true;
+            $maxPagination = ceil($postCount->numberPost / $limit);
+        }
+    }
 }

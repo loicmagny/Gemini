@@ -4,22 +4,8 @@ $user = new user();
 $regUser = '^(?=.{4,32}$)(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![_.])$^';
 $regBirthDate = '/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/';
 $regPassword = '/(?=^.{8,32}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/i';
-$regMail = '#[A-Z-a-z-0-9-.éàèîÏôöùüûêëç]{2,}@[A-Z-a-z-0-9éèàêâùïüëç]{2,}[.][a-z]{2,6}$#';
 $insertSuccess = false;
 $formError = array();
-
-function chaine_aleatoire($nb_car, $chaine = 'azertyuiopqsdfghjklmwxcvbn123456789') {
-    $nb_lettres = strlen($chaine) - 1;
-    $generation = '';
-    for ($i = 0; $i < $nb_car; $i++) {
-        $pos = mt_rand(0, $nb_lettres);
-        $car = $chaine[$pos];
-        $generation .= $car;
-    }
-    return $generation;
-}
-
-$confirmCode = chaine_aleatoire(8);
 if (isset($_POST['register'])) {
     if (isset($_POST['login'])) {
         $user->login = htmlspecialchars($_POST['login']);
@@ -54,32 +40,49 @@ if (isset($_POST['register'])) {
             $formError['emptyBirthdate'] = 'Veuillez rentrer votre date de naissance';
         }
     }
-    if (isset($_POST['mail'])) {
+    if (isset($_POST['mail']) && filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
         $user->mail = htmlspecialchars($_POST['mail']);
-        if (!preg_match($regMail, $user->mail)) {
-            $formError['mail'] = 'L\'adresse mail n\'est pas correcte';
-        } else if (empty($_POST['mail'])) {
-            $formError['emptyMail'] = 'Veuillez saisir une adresse mail';
-        }
+    } else if (empty($_POST['mail'])) {
+        $formError['emptyMail'] = 'Veuillez saisir une adresse mail';
+    } else {
+        $formError['mail'] = 'L\'adresse mail n\'est pas correcte';
     }
     if (!empty($_POST['colorNav'])) {
         $user->colorNav = htmlspecialchars($_POST['colorNav']);
         $updateColorNav = $user->updateColorNav();
+    } else {
+        $user->colorNav = '';
     }
     if (!empty($_POST['colorUserNav'])) {
         $user->colorUserNav = htmlspecialchars($_POST['colorUserNav']);
         $updateColorUserNav = $user->updateColorUserNav();
+    } else {
+        $user->colorUserNav = '';
     }
 //On vérifie que le formulaire a bien été soumis et qu'il n'y a pas eu d'erreur
     if (!$user->addUser()) {
         $formError['submit'] = 'Erreur lors de l\'ajout';
     } else if (count($formError) == 0) {
-        $user->confirmCode = $confirmCode;
-        $userMail = $_POST['mail'];
-        $userName = $_POST['login'];
-        // Mail
-        $object = 'Confirmation de votre inscription';
-        $content = '
+        $insertSuccess = true;
+        if($insertSuccess){
+            function chaine_aleatoire($nb_car, $chaine = 'ABCDEFGHIJQLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') {
+                $nb_lettres = strlen($chaine) - 1;
+                $generation = '';
+                for ($i = 0; $i < $nb_car; $i++) {
+                    $pos = mt_rand(0, $nb_lettres);
+                    $car = $chaine[$pos];
+                    $generation .= $car;
+                }
+                return $generation;
+            }
+
+            $confirmCode = chaine_aleatoire(8);
+            $user->confirmCode = $confirmCode;
+            $userMail = $_POST['mail'];
+            $userName = $_POST['login'];
+// Mail
+            $object = 'Confirmation de votre inscription';
+            $content = '
 <html>
 <head>
    <title>Vous vous êtes inscrit sur Gemini</title>
@@ -91,21 +94,22 @@ if (isset($_POST['register'])) {
        <p>Gardez ce code bien précieusement, il vous servira à réinitialiser votre mot de passe si vous perdez celui-ci</p>
        </body>
 </html>';
-        $header = 'MIME-Version: 1.0' . "\r\n";
-        $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-        $header .= 'From: no-reply@gemini.fr' . "\r\n";
+            $header = 'MIME-Version: 1.0' . "\r\n";
+            $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+            $header .= 'From: no-reply@gemini.fr' . "\r\n";
 //Envoi du mail
-        $confirmMail = mail($userMail, $object, $content, $header);
-        if (!$confirmMail) {
-            $formError['confirmMail'] = 'Un problème est survenu lors de l\'envoi du mail, veuillez réessayer';
+            $confirmMail = mail($userMail, $object, $content, $header);
+            if (!$confirmMail) {
+                $formError['confirmMail'] = 'Un problème est survenu lors de l\'envoi du mail, veuillez réessayer';
+            }
+            $user->login = '';
+            $user->password = '';
+            $user->birthdate = '';
+            $user->mail = '';
+            $user->colorNav = '';
+            $user->colorUserNav = '';
+            $user->confirmCode = '';
         }
-        $insertSuccess = true;
-        $user->login = '';
-        $user->password = '';
-        $user->birthdate = '';
-        $user->mail = '';
-        $user->colorNav = '';
-        $user->colorUserNav = '';
-        $user->confirmCode = '';
+
     }
 }

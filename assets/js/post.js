@@ -5,7 +5,7 @@ $('#send').click(function () {
     var date = $('#date').val();
     var id_author = $('#id_author').val();
     var authorPic = $('#authorPic').val();
-    $.post("controllers/post-controller.php", {
+    $.post('../../controllers/post-controller.php', {
         send: 'Poster',
         post: post,
         postmaker: postmaker,

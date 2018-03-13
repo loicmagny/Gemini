@@ -1,10 +1,11 @@
 <?php
 include 'header.php';
+include 'controllers/register-controller.php';
 ?>
-<div class="section white container formOptions">
+<div class="section white container ">
     <h1>Inscription</h1>
     <div>
-        <?php foreach ($formError as $error) { ?>
+<?php foreach ($formError as $error) { ?>
             <p><?= $error ?></p>
         <?php } ?>
     </div>
@@ -44,11 +45,12 @@ include 'header.php';
         <input name="register" type="submit" class="waves-effect waves-light btn" value="Valider"/>
     </form>
     <p class="formValid">
-        <?php if ($insertSuccess) { ?>
+<?php if ($insertSuccess) { ?>
         <p class="black-text">Envoi réussi</p>
-        <?php
-    }
-    ?>
+            <?php
+        }
+        ?>
 </div>
-<?php
-include 'footer.php';
+    <?php
+    include 'footer.php';
+    

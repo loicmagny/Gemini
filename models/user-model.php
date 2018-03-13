@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * La class user contient toutes les méthodes qui permettent de récupérer les informations liées aux utilisateurs. 
+ * Elle est enfant de dataBase.
+ */
+
 class user extends dataBase {
 
     public $id = 0;
@@ -8,18 +13,28 @@ class user extends dataBase {
     public $birthdate = '01/01/1900';
     public $mail = '';
     public $profilePic = '';
+    //Couleur de la barre de navigation, peut être modifiée par l'utilisateur
     public $colorNav = '';
+    //Couleur de la barre de navigation utilisateur, peut être modifiée par l'utilisateur
     public $colorUserNav = '';
+    //Code de confirmation envoyé par mail à l'utilisateur.
     public $confirmCode = '';
+    //Booléen qui détermine si un compte utilisateur est activé ou non
     public $activate = 0;
+    //Booléen qui détermine si un compte utilisateur détermine si un compte à les droits d'administration ou non
     public $admin = 0;
 
     public function __construct() {
         parent::__construct();
     }
 
+    /*
+     * La méthode addUser() permet d'insérer un nouvel utilisateur dans la base de données.
+     * On insère le login, le mot de passe, la date de naissance, le mail, la couleur de la barre de navigation (optionnel),
+     * la couleur de la barre de navigation utilisateur (otpionnel) et le code de confirmation envoyé par mail
+     */
+
     public function addUser() {
-//On prépare la requête sql qui insert dans les champs selectionnés, les valeurs sont des marqueurs nominatifs
         $query = 'INSERT INTO `' . self::PREFIX . 'user` (`login`, `password`, `birthdate`, `mail`, `colorNav`, `colorUserNav`, `confirmCode`) VALUES (:login, :password, :birthdate, :mail, :colorNav, :colorUserNav, :confirmCode)';
         $addUser = $this->db->prepare($query);
         $addUser->bindValue(':login', $this->login, PDO::PARAM_STR);
@@ -29,9 +44,13 @@ class user extends dataBase {
         $addUser->bindValue(':colorUserNav', $this->colorUserNav, PDO::PARAM_STR);
         $addUser->bindValue(':colorNav', $this->colorNav, PDO::PARAM_STR);
         $addUser->bindValue(':confirmCode', $this->confirmCode, PDO::PARAM_STR);
-//Si l'insertion s'est correctement déroulée on retourne vrai
         return $addUser->execute();
     }
+
+    /*
+     * La méthode confirmUser() permet d'activer le compte d'un utilisateur récemment inscrit
+     * à l'aide du code de confirmation evoyé par mail. L'activation du compte permet d'utiliser le compte en question
+     */
 
     public function confirmUser() {
         $query = 'UPDATE `' . self::PREFIX . 'user` SET `activate` = 1 WHERE `login` = :login AND `confirmCode` = :confirmCode AND `password` = :password ';
@@ -43,6 +62,11 @@ class user extends dataBase {
         return $confirmUser->execute();
     }
 
+    /*
+     * La méthode deactivateUser() permet de désactiver le compte d'un utilisateur en vue de sa suppression.
+     * Une fois le mot de passe entré le compte est désactivé et l'utilisateur est déconnecté
+     */
+
     public function deactivateUser() {
         $query = 'UPDATE `' . self::PREFIX . 'user` SET `activate` = 0 WHERE `id` = :id AND `password` = :password';
         $deactivateUser = $this->db->prepare($query);
@@ -51,6 +75,12 @@ class user extends dataBase {
 //Si l'insertion s'est correctement déroulée, on retourne vrai
         return $deactivateUser->execute();
     }
+
+    /*
+     * La méthode userConnect() permet à un utilisateur de se connecter via les variables de session.
+     * Cette méthode permet de transporter, via les variables de session, les informations de l'utilisateur à travers tout le site.
+     * La connexion est nécéssaire afin de pouvoir interagir sur le site (poster des commentaires).
+     */
 
     public function userConnect() {
         $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav`, `confirmCode`, `admin`, `activate` FROM `' . self::PREFIX . 'user` WHERE `login` = :login AND `password` = :password';
@@ -63,6 +93,13 @@ class user extends dataBase {
         }
         return $userList;
     }
+
+    /*
+     * La méthode getCryptedPassword() permet de récupérer le mot de passé chiffré de l'utilisateur souhaitant se connecter
+     * en vue de le comparer au mot de passé entré par l'utilisateur.
+     * Cette méthode utilise l'hydratation,
+     * C'est une technique qui permet de remplir les attributs de la classe avec les données renvoyées par la requête à la base de données.
+     */
 
     public function getCryptedPassword() {
         $isCorrect = false;
@@ -82,6 +119,25 @@ class user extends dataBase {
         }
     }
 
+    /*
+     * La méthode passwordForgotten() permet à un utilisateur de modifier son mot de passe dans le cas où il l'a perdu/oublié,
+     * le code de confirmation envoyé lors de l'inscription est nécéssaire ainsi que le login et l'adresse mail.
+     */
+
+    public function passwordForgotten() {
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `password` = :password WHERE `login` = :login AND `mail` = :mail AND confirmCode = :confirmCode';
+        $passwordForgotten = $this->db->prepare($query);
+        $passwordForgotten->bindValue(':password', $this->password, PDO::PARAM_STR);
+        $passwordForgotten->bindValue(':login', $this->login, PDO::PARAM_STR);
+        $passwordForgotten->bindValue(':mail', $this->mail, PDO::PARAM_STR);
+        $passwordForgotten->bindValue(':confirmCode', $this->confirmCode, PDO::PARAM_STR);
+        return $passwordForgotten->execute();
+    }
+
+    /*
+     * La méthode getUserProfile() permet l'affichage du profil de l'utilisateur grâce à son id
+     */
+
     public function getUserProfile() {
         $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav` FROM `' . self::PREFIX . 'user` WHERE `id` = :id';
         $getUserProfile = $this->db->prepare($query);
@@ -92,6 +148,76 @@ class user extends dataBase {
         }
         return $userProfile;
     }
+
+    /*
+     * La méthode updateLogin() permet à un utilisateur de modifier son nom d'utilisateur.
+     */
+
+    public function updateLogin() {
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `login` = :login WHERE `id` = :id';
+        $updateLogin = $this->db->prepare($query);
+        $updateLogin->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $updateLogin->bindValue(':login', $this->login, PDO::PARAM_STR);
+        return $updateLogin->execute();
+    }
+
+    /*
+     * La méthode updateMail() permet à un utilisateur de modifier son adresse mail.
+     */
+
+    public function updateMail() {
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `mail` = :mail WHERE `id` = :id';
+        $updateMail = $this->db->prepare($query);
+        $updateMail->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $updateMail->bindValue(':mail', $this->mail, PDO::PARAM_STR);
+        return $updateMail->execute();
+    }
+
+    /*
+     * La méthode updatePic() permet  à un utilisateur de modifier sa photo de profil.
+     */
+
+    public function updatePic() {
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `profilePic` = :profilePic WHERE `id` = :id';
+        $updatePic = $this->db->prepare($query);
+        $updatePic->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $updatePic->bindValue(':profilePic', $this->profilePic, PDO::PARAM_STR);
+        return $updatePic->execute();
+    }
+
+    /*
+     * La méthode updateColorNav() permet à un utilisateur de modifier la couleur de la barre de navigation à sa guise.
+     */
+
+    public function updateColorNav() {
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `colorNav` = :colorNav WHERE `id` = :id';
+        $updateColorNav = $this->db->prepare($query);
+        $updateColorNav->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $updateColorNav->bindValue(':colorNav', $this->colorNav, PDO::PARAM_STR);
+        return $updateColorNav->execute();
+    }
+
+    /*
+     * La méthode updateColorUserNav() permet à un utilisateur de modifier la couleur de la barre de navigation utilisateur à sa guise.
+     */
+
+    public function updateColorUserNav() {
+        $query = 'UPDATE `' . self::PREFIX . 'user` SET `colorUserNav` = :colorUserNav WHERE `id` = :id';
+        $updateColorUserNav = $this->db->prepare($query);
+        $updateColorUserNav->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $updateColorUserNav->bindValue(':colorUserNav', $this->colorUserNav, PDO::PARAM_STR);
+//Si l'insertion s'est correctement déroulée, on retourne vrai
+        return $updateColorUserNav->execute();
+    }
+
+    /*
+     * La méthode getUserInfo() permet de récupérer les informations insérées dans la base de données
+     * dans le but de mettre à jour le contenu de la variable de session aprés qu'un utilisateur ait modifié son profil.
+     * Cette méthode utilise l'hydratation,
+     * C'est une technique qui permet de remplir les attributs de la classe avec les données renvoyées par la requête à la base de données.
+     * Grâce à l'hydratation il est possible de récupérer les données entrées en base de données dans le but de mettre à jour les varaibles de session.
+     * La méthode getUserInfo() intervient aprés les méthodes de mises à jour du profil tel que updateLogin() ou updateColorNav()
+     */
 
     public function getUserInfo() {
         $isCorrect = false;
@@ -115,67 +241,6 @@ class user extends dataBase {
             }
             return $isCorrect;
         }
-    }
-
-    public function updateLogin() {
-//On prépare la requête SQL pour les champs selectionnés, les valeurs sont des marqueurs nominatifs
-        $query = 'UPDATE `' . self::PREFIX . 'user` SET `login` = :login WHERE `id` = :id';
-        $updateLogin = $this->db->prepare($query);
-        $updateLogin->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $updateLogin->bindValue(':login', $this->login, PDO::PARAM_STR);
-//Si l'insertion s'est correctement déroulée, on retourne vrai
-        return $updateLogin->execute();
-    }
-
-    public function updateMail() {
-//On prépare la requête SQL pour les champs selectionnés, les valeurs sont des marqueurs nominatifs
-        $query = 'UPDATE `' . self::PREFIX . 'user` SET `mail` = :mail WHERE `id` = :id';
-        $updateMail = $this->db->prepare($query);
-        $updateMail->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $updateMail->bindValue(':mail', $this->mail, PDO::PARAM_STR);
-//Si l'insertion s'est correctement déroulée, on retourne vrai
-        return $updateMail->execute();
-    }
-
-    public function updatePic() {
-//On prépare la requête SQL pour les champs selectionnés, les valeurs sont des marqueurs nominatifs
-        $query = 'UPDATE `' . self::PREFIX . 'user` SET `profilePic` = :profilePic WHERE `id` = :id';
-        $updatePic = $this->db->prepare($query);
-        $updatePic->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $updatePic->bindValue(':profilePic', $this->profilePic, PDO::PARAM_STR);
-//Si l'insertion s'est correctement déroulée, on retourne vrai
-        return $updatePic->execute();
-    }
-
-    public function updateColorNav() {
-//On prépare la requête SQL pour les champs selectionnés, les valeurs sont des marqueurs nominatifs
-        $query = 'UPDATE `' . self::PREFIX . 'user` SET `colorNav` = :colorNav WHERE `id` = :id';
-        $updateColorNav = $this->db->prepare($query);
-        $updateColorNav->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $updateColorNav->bindValue(':colorNav', $this->colorNav, PDO::PARAM_STR);
-//Si l'insertion s'est correctement déroulée, on retourne vrai
-        return $updateColorNav->execute();
-    }
-
-    public function passwordForgotten() {
-        $query = 'UPDATE `' . self::PREFIX . 'user` SET `password` = :password WHERE `login` = :login AND `mail` = :mail AND confirmCode = :confirmCode';
-        $passwordForgotten = $this->db->prepare($query);
-        $passwordForgotten->bindValue(':password', $this->password, PDO::PARAM_STR);
-        $passwordForgotten->bindValue(':login', $this->login, PDO::PARAM_STR);
-        $passwordForgotten->bindValue(':mail', $this->mail, PDO::PARAM_STR);
-        $passwordForgotten->bindValue(':confirmCode', $this->confirmCode, PDO::PARAM_STR);
-//Si l'insertion s'est correctement déroulée, on retourne vrai
-        return $passwordForgotten->execute();
-    }
-
-    public function updateColorUserNav() {
-//On prépare la requête SQL pour les champs selectionnés, les valeurs sont des marqueurs nominatifs
-        $query = 'UPDATE `' . self::PREFIX . 'user` SET `colorUserNav` = :colorUserNav WHERE `id` = :id';
-        $updateColorUserNav = $this->db->prepare($query);
-        $updateColorUserNav->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $updateColorUserNav->bindValue(':colorUserNav', $this->colorUserNav, PDO::PARAM_STR);
-//Si l'insertion s'est correctement déroulée, on retourne vrai
-        return $updateColorUserNav->execute();
     }
 
     function __destruct() {

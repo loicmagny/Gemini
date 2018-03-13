@@ -13,8 +13,6 @@ include 'models/historic-model.php';
 include 'controllers/connection-controller.php';
 include 'controllers/historic-controller.php';
 include 'controllers/options-controller.php';
-include 'controllers/register-controller.php';
-include 'controllers/confirm-controller.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">

@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * La classe forum contient toutes les méthodes relatives au forum
+ * Elle est enfant de dataBase
+ */
 class forum extends dataBase {
 
     public $id = 0;
@@ -10,7 +13,9 @@ class forum extends dataBase {
     public function __construct() {
         parent::__construct();
     }
-
+/*
+ * Cette méthode permet de créer un sujet sur le forum sur lequel chaque utilisateur connecté peut poster un commentaire
+ */
     public function addTopic() {
 //On prépare la requête sql qui insert dans les champs selectionnés, les valeurs sont des marqueurs nominatifs
         $query = 'INSERT INTO `' . self::PREFIX . 'forum`(`topic`, `loginAuthor`, `date`) VALUES(:topic, :loginAuthor, :date)';
@@ -22,7 +27,9 @@ class forum extends dataBase {
 //Si l'insertion s'est correctement déroulée on retourne vrai
         return $addTopic;
     }
-
+/*
+ * Cette méthode permet de récupérer la listes des sujets du forum afin de les afficher
+ */
     public function getTopicsList() {
         $topicList = array();
         $query = 'SELECT `id`, `topic`, `loginAuthor`, DATE_FORMAT(`date`, "%d/%m/%Y") AS date FROM `' . self::PREFIX . 'forum`';

@@ -1,5 +1,9 @@
 <?php
-
+/*
+ * La classe historic contient toutes les méthodes relatives à l'historique de navigation de l'utilisateur.
+ * Elle est enfant de dataBase.
+ * La classe contient en attribut les id de tout les éléments contenus dans la base de données et visités par l'utilisateur
+ */
 class historic extends dataBase {
 
     public $id = 0;
@@ -13,7 +17,9 @@ class historic extends dataBase {
     public function __construct() {
         parent::__construct();
     }
-
+/*
+ * Cette méthode permet d'ajouter les id des éléments contenus dans la base de données et visités par l'utilisateur
+ */
     public function AddInHistoric() {
         $query = 'INSERT INTO `' . self::PREFIX . 'historic`(`id_user`, `id_articles`, id_components, id_products, id_topic, id_advice) VALUES (:id_user, :id_articles, :id_components, :id_products, :id_topic, :id_advice)';
         $addInHistoric = $this->db->prepare($query);
@@ -26,7 +32,11 @@ class historic extends dataBase {
 //Si l'insertion s'est correctement déroulée on retourne vrai
         return $addInHistoric->execute();
     }
-
+/*
+ * Cette méthode permet d'afficher l'historique de navigation de l'utilisateur
+ * La requête contient une jointure entre toutes les tables de la base de données du projet afin de récupèrer chaque élément contenus dans la base de données et visités par l'utilisateur 
+ * Cela permet d'afficher dans l'historique un lien vers ces éléments déjà visités
+ */
     public function getHistoric($user_id) {
         $query = 'SELECT
 `' . self::PREFIX . 'historic`.`id` AS historic_id,
@@ -91,7 +101,9 @@ WHERE
         }
         return $historicList;
     }
-
+/*
+ * Cette méthode permet de compter le nombre de lines dans l'historique d'un utilisateur afin d'établir une pagination
+ */
     public function countHistoricLine($user_id) {
         $query = 'SELECT COUNT(`id`) AS `historicLine` FROM `' . self::PREFIX . 'historic` WHERE id_user = :id_user';
         $historicLineCount = $this->db->prepare($query);
@@ -104,7 +116,9 @@ WHERE
         }
         return $historicLineResult;
     }
-
+/*
+ * Cette méthode permet de supprimer l'historique de l'utilisateur
+ */
     public function deleteHistoric($user_id) {
         $query = 'DELETE FROM `' . self::PREFIX . 'historic` WHERE id_user = :id_user';
         $historicLineCount = $this->db->prepare($query);

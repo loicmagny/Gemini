@@ -14,7 +14,7 @@ include 'controllers/advice-controller.php';
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($adviceList as $advice) { ?>
+            <?php // foreach ($adviceList as $advice) { ?>
                 <tr class="success center tableCommunity">
                     <td><a href="advice-content.php?advice=<?= $advice->id ?>"><?= $advice->title; ?></a></td>
                     <td><?= $advice->author; ?></td>

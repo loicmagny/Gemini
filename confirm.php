@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+include 'controllers/confirm-controller.php';
 ?>
 <h1>Activation du compte</h1>
 <?php if ($_SESSION['activate'] == 1) { ?>

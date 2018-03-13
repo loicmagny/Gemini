@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * La classse definition contient toutes les méthodes relatives au glossaire du site
+ * Elle est enfant de dataBase
+ */
 class definition extends dataBase {
 
     public $id = 0;
@@ -9,7 +12,9 @@ class definition extends dataBase {
     public function __construct() {
         parent::__construct();
     }
-
+/*
+ * Cette méthode permet de récupérer l'ensemble des définition contenues dans la base de données en fonction d'une pagination alphabétique.
+ */
     public function definitionList($search) {
         $DefinitionList = array();
         $query = 'SELECT `id`, `defname`, `description` FROM `' . self::PREFIX . 'definition` WHERE `defname` LIKE :search ORDER BY `defname` ASC';
@@ -22,16 +27,6 @@ class definition extends dataBase {
         return $definitionList;
     }
 
-//            function searchPatients($search) {
-//        $searchPatientResult = array();
-//        $query = 'SELECT `id`, `lastname`, `firstname`, `birthdate`, `phone`, `mail` FROM `patients` WHERE `lastname` LIKE :search OR `firstname` LIKE :search';
-//        $searchPatient = $this->db->prepare($query);
-//        $searchPatient->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
-//        if ($searchPatient->execute()) {
-//            $searchPatientResult = $searchPatient->fetchAll(PDO::FETCH_OBJ);
-//        }
-//        return $searchPatientResult;
-//    }
     function __destruct() {
         
     }
