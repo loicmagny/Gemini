@@ -1,3 +1,4 @@
+</div>
 <?php if (isset($_SESSION['connect'])) { ?>
     <footer class="page-footer <?= $_SESSION['colorNav'] ?>">
     <?php } else { ?>
@@ -24,5 +25,6 @@
     <script src="assets/libs/materialize/dist/js/materialize.min.js"></script>
     <script src="assets/js/materializeDOMElements.js"></script>
     <script src="assets/js/post.js"></script>
+    <script src="assets/js/checkUnique.js"></script>
 </body>
 </html>

@@ -11,11 +11,11 @@ if (isset($_SESSION['connect'])) {
             <input type="text" hidden class="form-control" name="id_author" value="<?= $_SESSION['id']; ?>" />
             <input type="text" hidden class="form-control" name="authorPic" value="<?= $_SESSION['profilePic']; ?>" />
             <div class="input-field col s6">
-                <input id="title" type="text" name="title" class="validate">
+                <input id="title" type="text" name="title" required class="validate">
                 <label for="title">Titre</label>
             </div>
             <div class="input-field col s12">
-                <textarea id="content" name="content" class="materialize-textarea"></textarea>
+                <textarea id="content" name="content" required class="materialize-textarea"></textarea>
                 <label for="content">Contenu</label>
             </div>
             <input type="submit" name="submit" class="btn btn-primary" value="Publier l'article" />

@@ -14,6 +14,7 @@ class post extends dataBase {
     public $date = '01/01/1900';
     public $id_author = 0;
     public $authorPic = '';
+    private $tablename = TABLEPREFIX . 'post';
 
     public function __construct() {
         parent::__construct();
@@ -25,7 +26,7 @@ class post extends dataBase {
 
     public function addPost() {
 //On prépare la requête sql qui insert dans les champs selectionnés, les valeurs sont des marqueurs nominatifs
-        $query = 'INSERT INTO `' . self::PREFIX . 'topic`(`post`, `postmaker`, `topicid`, `date`, `id_author`, `authorPic`) VALUES (:post, :postmaker, :topicid, :date, :id_author, :authorPic)';
+        $query = 'INSERT INTO ' . $this->tablename . '(`post`, `postmaker`, `topicid`, `date`, `id_author`, `authorPic`) VALUES (:post, :postmaker, :topicid, :date, :id_author, :authorPic)';
         $addPost = $this->db->prepare($query);
         $addPost->bindValue(':post', $this->post, PDO::PARAM_STR);
         $addPost->bindValue(':postmaker', $this->postmaker, PDO::PARAM_STR);
@@ -43,7 +44,7 @@ class post extends dataBase {
      */
 
     public function getPostListPagination($offset) {
-        $query = 'SELECT `id`, `post`, `postmaker`, `topicid`, `id_author`, `authorPic`, DATE_FORMAT(`date`, "%d/%m/%Y") AS date FROM `' . self::PREFIX . 'topic` WHERE topicid = :topicid LIMIT 25 OFFSET :offset';
+        $query = 'SELECT `id`, `post`, `postmaker`, `topicid`, `id_author`, `authorPic`, DATE_FORMAT(`date`, "%d/%m/%Y") AS date FROM ' . $this->tablename . ' WHERE topicid = :topicid LIMIT 25 OFFSET :offset';
         $postResult = $this->db->prepare($query);
         $postResult->bindValue(':offset', $offset, PDO::PARAM_INT);
         $postResult->bindValue(':topicid', $this->topicid, PDO::PARAM_INT);
@@ -59,7 +60,7 @@ class post extends dataBase {
      * Cette fonction permet de récupérer le nombre de commentaires sur le sujet afin de permettre la pagination
      */
     Public function countPost() {
-        $query = 'SELECT COUNT(`id`) AS `numberPost` FROM `' . self::PREFIX . 'topic` WHERE topicid = :topicid';
+        $query = 'SELECT COUNT(`id`) AS `numberPost` FROM ' . $this->tablename . ' WHERE topicid = :topicid';
         $postCount = $this->db->prepare($query);
         $postCount->bindValue(':topicid', $this->topicid, PDO::PARAM_INT);
         $postCount->execute();

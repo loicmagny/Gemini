@@ -16,11 +16,11 @@ if (isset($_SESSION['connect']) && $_SESSION['admin'] == 1) {
             <input type="text" hidden class="form-control" name="id_author" value="<?= $_SESSION['id'] ?>" />
             <input type="text" hidden class="form-control" name="authorPic" value="<?= $_SESSION['profilePic'] ?>" />
             <div class="input-field col s6">
-                <input id="title" name="title" type="text" class="validate">
+                <input id="title" name="title" type="text" required class="validate">
                 <label for="title">Titre de l'article</label>
             </div>
             <div class="input-field col s6">
-                <textarea id="content" class="materialize-textarea" name="content" data-length="350"></textarea>
+                <textarea id="content" class="materialize-textarea" name="content" required data-length="350"></textarea>
                 <label for="content">Contenu de l'article</label>
             </div>
             <button type="submit" name="submit" class="btn btn-flat">Créer le topic</button>
@@ -35,7 +35,7 @@ if (isset($_SESSION['connect']) && $_SESSION['admin'] == 1) {
     <?php
 } else {
     ?>
-<p>Il vous faut certains droit pour publier un article sur le site, contactez l'administrateur <a href="contact.php">ici</a> si vous souhaitez publier un article</p>
+    <p>Il vous faut certains droit pour publier un article sur le site, contactez l'administrateur <a href="contact.php">ici</a> si vous souhaitez publier un article</p>
     <?php
 } include 'footer.php';
 ?>

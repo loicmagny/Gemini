@@ -12,6 +12,7 @@ class advice extends dataBase {
     public $author = '';
     public $id_author = 0;
     public $authorPic = '';
+    private $tablename = TABLEPREFIX . 'advice';
 
     public function __construct() {
         parent::__construct();

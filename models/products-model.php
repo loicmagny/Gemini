@@ -17,16 +17,19 @@ class products extends dataBase {
     public $type = 0;
     //brand désigne la marque du produit
     public $brand = '';
+    private $tablename = TABLEPREFIX . 'products';
 
     public function __construct() {
         parent::__construct();
     }
-/*
- * Cette méthode permet à un utilisateur d'effectuer une recherche parmi la liste des produits de la base de données.
- * La requête intègre ue jointure afin de récupèrer les différents composants du produit contenus, eux dans la table components 
- */
+
+    /*
+     * Cette méthode permet à un utilisateur d'effectuer une recherche parmi la liste des produits de la base de données.
+     * La requête intègre ue jointure afin de récupèrer les différents composants du produit contenus, eux dans la table components 
+     */
+
     public function productSearch() {
-        $query = 'SELECT `' . self::PREFIX . 'products`.`id`, `' . self::PREFIX . 'products`.`productname`, `' . self::PREFIX . 'products`.`description`, `' . self::PREFIX . 'products`.`type`, `' . self::PREFIX . 'products`.`brand`, `' . self::PREFIX . 'components`.`id`, `' . self::PREFIX . 'components`.`componentsname`, `' . self::PREFIX . 'components`.`description` AS description, `' . self::PREFIX . 'components`.`type`,`' . self::PREFIX . 'components`.`productId` FROM (`' . self::PREFIX . 'products` LEFT JOIN `' . self::PREFIX . 'components` ON `' . self::PREFIX . 'products`.`id` = `' . self::PREFIX . 'components`.`productId`) WHERE `' . self::PREFIX . 'products`.`productname` = :productname AND `' . self::PREFIX . 'products`.`type` = :type AND `' . self::PREFIX . 'products`.`brand` = :brand';
+        $query = 'SELECT ' . $this->tablename . '.`id`, ' . $this->tablename . '.`productname`, ' . $this->tablename . '.`description`, ' . $this->tablename . '.`type`, ' . $this->tablename . '.`brand`, ' . $this->tablename . '.`id`, ' . $this->tablename . '.`componentsname`, ' . $this->tablename . '.`description` AS description, ' . $this->tablename . '.`type`,' . $this->tablename . '.`productId` FROM (' . $this->tablename . ' LEFT JOIN ' . $this->tablename . ' ON ' . $this->tablename . '.`id` = ' . $this->tablename . '.`productId`) WHERE ' . $this->tablename . '.`productname` = :productname AND ' . $this->tablename . '.`type` = :type AND ' . $this->tablename . '.`brand` = :brand';
         $productSearch = $this->db->prepare($query);
         $productSearch->bindValue(':productname', $this->productname, PDO::PARAM_STR);
         $productSearch->bindValue(':type', $this->type, PDO::PARAM_STR);

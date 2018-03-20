@@ -1,9 +1,11 @@
 <?php
+
 /*
  * La classe historic contient toutes les méthodes relatives à l'historique de navigation de l'utilisateur.
  * Elle est enfant de dataBase.
  * La classe contient en attribut les id de tout les éléments contenus dans la base de données et visités par l'utilisateur
  */
+
 class historic extends dataBase {
 
     public $id = 0;
@@ -13,15 +15,18 @@ class historic extends dataBase {
     public $id_products = 0;
     public $id_topic = 0;
     public $id_advice = 0;
+    private $tablename = TABLEPREFIX . 'historic';
 
     public function __construct() {
         parent::__construct();
     }
-/*
- * Cette méthode permet d'ajouter les id des éléments contenus dans la base de données et visités par l'utilisateur
- */
+
+    /*
+     * Cette méthode permet d'ajouter les id des éléments contenus dans la base de données et visités par l'utilisateur
+     */
+
     public function AddInHistoric() {
-        $query = 'INSERT INTO `' . self::PREFIX . 'historic`(`id_user`, `id_articles`, id_components, id_products, id_topic, id_advice) VALUES (:id_user, :id_articles, :id_components, :id_products, :id_topic, :id_advice)';
+        $query = 'INSERT INTO ' . $this->tablename . '(`id_user`, `id_articles`, id_components, id_products, id_topic, id_advice) VALUES (:id_user, :id_articles, :id_components, :id_products, :id_topic, :id_advice)';
         $addInHistoric = $this->db->prepare($query);
         $addInHistoric->bindValue(':id_user', $this->id_user, PDO::PARAM_INT);
         $addInHistoric->bindValue(':id_articles', $this->id_articles, PDO::PARAM_INT);
@@ -32,20 +37,22 @@ class historic extends dataBase {
 //Si l'insertion s'est correctement déroulée on retourne vrai
         return $addInHistoric->execute();
     }
-/*
- * Cette méthode permet d'afficher l'historique de navigation de l'utilisateur
- * La requête contient une jointure entre toutes les tables de la base de données du projet afin de récupèrer chaque élément contenus dans la base de données et visités par l'utilisateur 
- * Cela permet d'afficher dans l'historique un lien vers ces éléments déjà visités
- */
+
+    /*
+     * Cette méthode permet d'afficher l'historique de navigation de l'utilisateur
+     * La requête contient une jointure entre toutes les tables de la base de données du projet afin de récupèrer chaque élément contenus dans la base de données et visités par l'utilisateur 
+     * Cela permet d'afficher dans l'historique un lien vers ces éléments déjà visités
+     */
+
     public function getHistoric($user_id) {
         $query = 'SELECT
-`' . self::PREFIX . 'historic`.`id` AS historic_id,
- `' . self::PREFIX . 'historic`.`id_user`,
- `' . self::PREFIX . 'historic`.`id_articles`,
- `' . self::PREFIX . 'historic`.`id_components`,
- `' . self::PREFIX . 'historic`.`id_products`,
- `' . self::PREFIX . 'historic`.`id_topic`,
- `' . self::PREFIX . 'historic`.`id_advice`,
+' . $this->tablename . '.`id` AS historic_id,
+ ' . $this->tablename . '.`id_user`,
+ ' . $this->tablename . '.`id_articles`,
+ ' . $this->tablename . '.`id_components`,
+ ' . $this->tablename . '.`id_products`,
+ ' . $this->tablename . '.`id_topic`,
+ ' . $this->tablename . '.`id_advice`,
  `' . self::PREFIX . 'advices`.`id` AS advices_id,
  `' . self::PREFIX . 'advices`.`title` AS advices_title,
  `' . self::PREFIX . 'articles`.`id` AS articles_id,
@@ -61,38 +68,38 @@ class historic extends dataBase {
  `' . self::PREFIX . 'user`.`login`
 FROM
 (
-`' . self::PREFIX . 'historic`
+' . $this->tablename . '
 LEFT JOIN
 `' . self::PREFIX . 'advices`
 ON
-`' . self::PREFIX . 'historic`.`id_advice` = `' . self::PREFIX . 'advices`.`id`
+' . $this->tablename . '.`id_advice` = `' . self::PREFIX . 'advices`.`id`
 LEFT JOIN
 `' . self::PREFIX . 'user`
 ON
-`' . self::PREFIX . 'historic`.`id_user` = `' . self::PREFIX . 'user`.`id`
+' . $this->tablename . '.`id_user` = `' . self::PREFIX . 'user`.`id`
 LEFT JOIN
 `' . self::PREFIX . 'articles`
 ON
-`' . self::PREFIX . 'historic`.`id_articles` = `' . self::PREFIX . 'articles`.`id`
+' . $this->tablename . '.`id_articles` = `' . self::PREFIX . 'articles`.`id`
 LEFT JOIN
 `' . self::PREFIX . 'components`
 ON
-`' . self::PREFIX . 'historic`.`id_components` = `' . self::PREFIX . 'components`.`id`
+' . $this->tablename . '.`id_components` = `' . self::PREFIX . 'components`.`id`
 LEFT JOIN
 `' . self::PREFIX . 'products`
 ON
-`' . self::PREFIX . 'historic`.`id_products` = `' . self::PREFIX . 'products`.`id`
+' . $this->tablename . '.`id_products` = `' . self::PREFIX . 'products`.`id`
 LEFT JOIN
 `' . self::PREFIX . 'forum`
 ON
-`' . self::PREFIX . 'historic`.`id_topic` = `' . self::PREFIX . 'forum`.`id`
+' . $this->tablename . '.`id_topic` = `' . self::PREFIX . 'forum`.`id`
 LEFT JOIN
 `' . self::PREFIX . 'topic`
 ON
 `' . self::PREFIX . 'forum`.`topic` = `' . self::PREFIX . 'topic`.`topicid`
 )
 WHERE
-`' . self::PREFIX . 'historic`.`id_user` = :id_user';
+' . $this->tablename . '.`id_user` = :id_user';
         $historicResult = $this->db->prepare($query);
         $historicResult->bindValue('id_user', $user_id, PDO::PARAM_INT);
         $historicResult->execute();
@@ -101,11 +108,13 @@ WHERE
         }
         return $historicList;
     }
-/*
- * Cette méthode permet de compter le nombre de lines dans l'historique d'un utilisateur afin d'établir une pagination
- */
+
+    /*
+     * Cette méthode permet de compter le nombre de lines dans l'historique d'un utilisateur afin d'établir une pagination
+     */
+
     public function countHistoricLine($user_id) {
-        $query = 'SELECT COUNT(`id`) AS `historicLine` FROM `' . self::PREFIX . 'historic` WHERE id_user = :id_user';
+        $query = 'SELECT COUNT(`id`) AS `historicLine` FROM ' . $this->tablename . ' WHERE id_user = :id_user';
         $historicLineCount = $this->db->prepare($query);
         $historicLineCount->bindValue('id_user', $user_id, PDO::PARAM_INT);
         $historicLineCount->execute();
@@ -116,11 +125,13 @@ WHERE
         }
         return $historicLineResult;
     }
-/*
- * Cette méthode permet de supprimer l'historique de l'utilisateur
- */
+
+    /*
+     * Cette méthode permet de supprimer l'historique de l'utilisateur
+     */
+
     public function deleteHistoric($user_id) {
-        $query = 'DELETE FROM `' . self::PREFIX . 'historic` WHERE id_user = :id_user';
+        $query = 'DELETE FROM ' . $this->tablename . ' WHERE id_user = :id_user';
         $historicLineCount = $this->db->prepare($query);
         $historicLineCount->bindValue('id_user', $user_id, PDO::PARAM_INT);
         $historicLineCount->execute();
@@ -132,4 +143,3 @@ WHERE
     }
 
 }
-

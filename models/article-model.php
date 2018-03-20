@@ -14,6 +14,7 @@ class article extends dataBase {
     public $author = '';
     public $id_author = 0;
     public $authorPic = '';
+    private $tablename = TABLEPREFIX . 'article';
 
     public function __construct() {
         parent::__construct();
@@ -24,7 +25,7 @@ class article extends dataBase {
      */
 
     public function addArticle() {
-        $query = 'INSERT INTO `' . self::PREFIX . 'articles`(`title`, `content`, `date`, `author`, `id_author`, `authorPic`) VALUES (:title, :content, :date, :author, :id_author, :authorPic)';
+        $query = 'INSERT INTO ' . $this->tablename . '(`title`, `content`, `date`, `author`, `id_author`, `authorPic`) VALUES (:title, :content, :date, :author, :id_author, :authorPic)';
         $addArticle = $this->db->prepare($query);
         $addArticle->bindValue(':title', $this->title, PDO::PARAM_STR);
         $addArticle->bindValue(':content', $this->content, PDO::PARAM_STR);
@@ -41,7 +42,7 @@ class article extends dataBase {
 
     public function getArticlesList() {
         $articleList = array();
-        $query = 'SELECT `id`, `title`, `content`,  DATE_FORMAT(`date`, "%d/%m/%Y") AS date, `author` FROM `' . self::PREFIX . 'articles`';
+        $query = 'SELECT `id`, `title`, `content`,  DATE_FORMAT(`date`, "%d/%m/%Y") AS date, `author` FROM ' . $this->tablename . '';
         $articleResult = $this->db->query($query);
         if (is_object($articleResult)) {
             $articleList = $articleResult->fetchAll(pdo::FETCH_OBJ);
@@ -55,7 +56,7 @@ class article extends dataBase {
 
     public function getArticlesContent() {
         $articleContentList = array();
-        $query = 'SELECT `id`, `title`, `content`,  DATE_FORMAT(`date`, "%d/%m/%Y") AS date, `author`, `id_author`, `authorPic` FROM `' . self::PREFIX . 'articles` WHERE id = :id';
+        $query = 'SELECT `id`, `title`, `content`,  DATE_FORMAT(`date`, "%d/%m/%Y") AS date, `author`, `id_author`, `authorPic` FROM ' . $this->tablename . ' WHERE id = :id';
         $articleContentResult = $this->db->prepare($query);
         $articleContentResult->bindValue(':id', $this->id, PDO::PARAM_INT);
         $articleContentResult->execute();

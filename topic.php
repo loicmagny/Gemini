@@ -2,7 +2,7 @@
 include 'header.php';
 include 'controllers/post-controller.php';
 ?>
-<div class="section white black-text container formOptions">
+<section class="section white black-text container formOptions">
     <h1><?= $_GET['name'] ?></h1>
     <div class="row">
         <div id="posts">
@@ -65,7 +65,7 @@ include 'controllers/post-controller.php';
             <?php } ?>
         <li class="waves-effect"><a class="btn-flat" href="topic.php?page=<?= $page + 1 ?>&topic=<?= $_GET['topic'] ?>&name=<?= $_GET['name'] ?>" <?= $page >= $maxPagination ? 'disabled' : '' ?>>Suivante</a></li>
     </ul>
-</div>
+</section>
 <?php
 include 'footer.php';
 ?>

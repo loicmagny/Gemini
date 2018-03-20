@@ -10,15 +10,15 @@ if ($connectSuccess) {
             <div class="row">
                 <div class="row">
                     <div class="input-field col s6">
-                        <input id="login" type="text" name="login" class="validate">
+                        <input id="login" type="text" name="login" required class="validate">
                         <label for="login">Nom d'utilisateur</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="password" type="password" name="password" class="validate">
+                        <input id="password" type="password" name="password" required class="validate">
                         <label for="password">Mot de passe</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="confirmCode" type="password" name="confirmCode" class="validate">
+                        <input id="confirmCode" type="password" name="confirmCode" required class="validate">
                         <label for="confirmCode">Code de confirmation</label>
                     </div>
                     <input name="confirm" id="confirm" type="submit" class="waves-effect waves-light btn-flat" value="Valider"/>

@@ -10,6 +10,7 @@ class components extends dataBase {
     public $componentname = '';
     public $description = '';
     public $type = 0;
+    private $tablename = TABLEPREFIX . 'components';
 
     public function __construct() {
         parent::__construct();
@@ -18,7 +19,7 @@ class components extends dataBase {
  * Cette méthode permet d'effectuer une recherche dans la table components en fonction des informations entrées par l'utilisateur dans la vue.
  */
     public function componentSearch() {
-        $query = 'SELECT `id`, `componentsname`, `description`, `type`, `productId` FROM `' . self::PREFIX . 'components` WHERE componentsname = :componentsname AND type = :type';
+        $query = 'SELECT `id`, `componentsname`, `description`, `type`, `productId` FROM ' . $this->tablename . ' WHERE componentsname = :componentsname AND type = :type';
         $componentSearch = $this->db->prepare($query);
         $componentSearch->bindValue(':componentsname', $this->componentsname, PDO::PARAM_STR);
         $componentSearch->bindValue(':type', $this->type, PDO::PARAM_STR);

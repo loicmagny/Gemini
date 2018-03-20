@@ -8,7 +8,7 @@ if (isset($_SESSION['connect'])) {
         <form action="#" method="POST">
             <input type="date" hidden class="form-control" name="date" value="<?= date('Y-m-d'); ?>" />
             <div class="input-field col s6">
-                <input id="topic" name="topic" type="text" class="validate">
+                <input id="topic" name="topic" type="text" required class="validate">
                 <label for="topic">Sujet</label>
             </div>
             <input type="text" hidden class="form-control" name="loginAuthor" value="<?= $_SESSION['login'] ?>" />

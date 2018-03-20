@@ -8,6 +8,7 @@ class definition extends dataBase {
     public $id = 0;
     public $defname = '';
     public $defcontent = '';
+    private $tablename = TABLEPREFIX . 'definition';
 
     public function __construct() {
         parent::__construct();
@@ -17,7 +18,7 @@ class definition extends dataBase {
  */
     public function definitionList($search) {
         $DefinitionList = array();
-        $query = 'SELECT `id`, `defname`, `description` FROM `' . self::PREFIX . 'definition` WHERE `defname` LIKE :search ORDER BY `defname` ASC';
+        $query = 'SELECT `id`, `defname`, `description` FROM ' . $this->tablename . ' WHERE `defname` LIKE :search ORDER BY `defname` ASC';
         $definitionResult = $this->db->prepare($query);
         $definitionResult->bindValue(':search', $search . '%', PDO::PARAM_STR);
         $definitionResult->execute();
