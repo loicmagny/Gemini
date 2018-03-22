@@ -14,9 +14,8 @@ include 'header.php';
         </form>
         <div id="topic">
             <ul class="list-group list-group-flush">
-
                 <?php foreach ($historicList as $historic) { ?>
-                    <li class="list-group-item"><a href="topic.php?page=1&topic=<?= $historic->id_topic; ?>&name=<?= $historic->topic; ?>"><?= $historic->topic; ?></a></li>
+                    <li class="list-group-item"><a href="topic.php?page=1&topic=<?= $historic->id_topic; ?>&name=<?= $historic->topic_name; ?>"><?= $historic->topic_name; ?></a></li>
                 <?php } ?>
             </ul>
         </div>
@@ -30,7 +29,7 @@ include 'header.php';
         <div id="advices">
             <ul class="list-group list-group-flush">
                 <?php foreach ($historicList as $historic) { ?>
-                    <li class="list-group-item"><a href="advice-content.php?advice=<?= $historic->id_advice ?>"><?= $historic->advices_title; ?></a></li>
+                    <li class="list-group-item"><a href="advice-content.php?advice=<?= $historic->id_tips ?>"><?= $historic->tips_title; ?></a></li>
                     <?php } ?>
             </ul>
         </div>

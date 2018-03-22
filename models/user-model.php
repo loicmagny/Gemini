@@ -22,7 +22,7 @@ class user extends dataBase {
     //Booléen qui détermine si un compte utilisateur est activé ou non
     public $activate = 0;
     //Booléen qui détermine si un compte utilisateur détermine si un compte à les droits d'administration ou non
-    public $admin = 0;
+    public $id_NCV9fL8njjsAB9Me_role = '';
     private $tablename = TABLEPREFIX . 'user';
 
     public function __construct() {
@@ -102,7 +102,7 @@ class user extends dataBase {
      */
 
     public function userConnect() {
-        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav`, `confirmCode`, `admin`, `activate` FROM ' . $this->tablename . ' WHERE `login` = :login AND `password` = :password';
+        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav`, `confirmCode`, `activate` FROM ' . $this->tablename . ' WHERE `login` = :login AND `password` = :password';
         $userConnect = $this->db->prepare($query);
         $userConnect->bindValue(':login', $this->login, PDO::PARAM_STR);
         $userConnect->bindValue(':password', $this->password, PDO::PARAM_STR);
@@ -121,7 +121,6 @@ class user extends dataBase {
      */
 
     public function getCryptedPassword() {
-        $isCorrect = false;
         $query = 'SELECT `password` FROM ' . $this->tablename . ' WHERE `login` = :login';
         $getPassword = $this->db->prepare($query);
         $getPassword->bindValue(':login', $this->login, PDO::PARAM_STR);
@@ -131,10 +130,9 @@ class user extends dataBase {
                 $passwordObtained = $getPassword->fetch(PDO::FETCH_OBJ);
                 if (!empty($passwordObtained)) {
                     $this->password = $passwordObtained->password;
-                    $isCorrect = true;
                 }
             }
-            return $isCorrect;
+            return $passwordObtained;
         }
     }
 

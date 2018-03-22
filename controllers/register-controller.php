@@ -117,30 +117,30 @@ if (isset($_POST['register'])) {
 //On attribue le résultat de random_string à la variale $confirmCode qu'on lie à l'attribut confirmCode
             $user->confirmCode = random_string(8);
 //On définit les différents éléments du mail à envoyer à l'utilisateur
-            $userMail = $_POST['mail'];
-            $userName = $_POST['login'];
-            $object = 'Confirmation de votre inscription';
-//On écrit le contenu HTML du mail
-            $content = '
-<html>
-<head>
-   <title>Vous vous êtes inscrit sur Gemini</title>
-</head>
-<body>
-   <p>Bonjour ' . $userName . '</p>
-   <p>Voici le code nécéssaire à la validation de l\'inscription : ' . $user->confirmCode . '</p>
-       <p> Rendez vous <a href="http://gemini/confirm.php">ici</a> pour confirmer votre adresse</p>
-       <p>Gardez ce code bien précieusement, il vous servira à réinitialiser votre mot de passe si vous perdez celui-ci</p>
-       </body>
-</html>';
-            $header = 'MIME-Version: 1.0' . "\r\n";
-            $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-            $header .= 'From: no-reply@gemini.fr' . "\r\n";
-//On envoie le mail
-            $confirmMail = mail($userMail, $object, $content, $header);
-            if (!$confirmMail) {//Si le mail ne s'envoie pas on affiche une erreur
-                $formError['confirmMail'] = 'Un problème est survenu lors de l\'envoi du mail, veuillez réessayer';
-            }
+//            $userMail = $_POST['mail'];
+//            $userName = $_POST['login'];
+//            $object = 'Confirmation de votre inscription';
+////On écrit le contenu HTML du mail
+//            $content = '
+//<html>
+//<head>
+//   <title>Vous vous êtes inscrit sur Gemini</title>
+//</head>
+//<body>
+//   <p>Bonjour ' . $userName . '</p>
+//   <p>Voici le code nécéssaire à la validation de l\'inscription : ' . $user->confirmCode . '</p>
+//       <p> Rendez vous <a href="http://gemini/confirm.php">ici</a> pour confirmer votre adresse</p>
+//       <p>Gardez ce code bien précieusement, il vous servira à réinitialiser votre mot de passe si vous perdez celui-ci</p>
+//       </body>
+//</html>';
+//            $header = 'MIME-Version: 1.0' . "\r\n";
+//            $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+//            $header .= 'From: no-reply@gemini.fr' . "\r\n";
+////On envoie le mail
+//            $confirmMail = mail($userMail, $object, $content, $header);
+//            if (!$confirmMail) {//Si le mail ne s'envoie pas on affiche une erreur
+//                $formError['confirmMail'] = 'Un problème est survenu lors de l\'envoi du mail, veuillez réessayer';
+//            }
         }
         if (!$user->activateAccount()) {
 //On affiche une erreur

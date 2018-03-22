@@ -1,7 +1,7 @@
 <?php
 
 //On instancie la classe article()
-$article = new article();
+$article = new articles();
 $formError = array();
 $SearchSuccess = false;
 if (isset($_GET['article'])) {

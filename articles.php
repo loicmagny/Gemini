@@ -18,8 +18,8 @@ include 'controllers/article-controller.php';
             foreach ($articleList as $article) {
                 ?>  <tr class="success center tableCommunity">
                     <td><a href="articles-content.php?article=<?= $article->id; ?>"><?= $article->title; ?></a></td>
-                    <td><?= $article->author; ?></td>
-                    <td><?= $article->date; ?></td>
+                    <td><?= $article->login; ?></td>
+                    <td><?= $article->DATE; ?></td>
                 </tr>
                 <?php
             }

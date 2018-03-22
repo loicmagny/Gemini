@@ -1,6 +1,6 @@
 <?php
 //On instancie la class article()
-$article = new article();
+$article = new articles();
 $insertSuccess = false;
 $formError = array();
 if (isset($_POST['submit'])) {
@@ -14,14 +14,8 @@ if (isset($_POST['submit'])) {
     } else if (empty($_POST['content'])) {
         $formError['emptyContent'] = 'Votre message n\'a pas de contenu!';
     }
-    if (isset($_POST['author'])) {
-        $article->author = htmlspecialchars($_POST['author']);
-    }
     if (isset($_POST['id_author'])) {
         $article->id_author = htmlspecialchars($_POST['id_author']);
-    }
-    if (isset($_POST['authorPic'])) {
-        $article->authorPic = htmlspecialchars($_POST['authorPic']);
     }
     if (isset($_POST['date'])) {
         $article->date = htmlspecialchars($_POST['date']);

@@ -74,7 +74,7 @@ if (isset($_POST['update'])) {
     }
 }
 //Si on veut supprimer le profil
-if (isset($_POST['delete'])) {
+if (isset($_POST['deletionPassword'])) {
     $user = new user(); //On instancie la classe user();
     $password = new user(); //On instancie la classe user();
     $password->login = $_SESSION['login'];
@@ -95,11 +95,12 @@ if (isset($_POST['delete'])) {
     //On appelle la méthode deactivateUser()
     $deactivateUser = $user->deactivateUser();
     //Si le compte utilisateur est désactivé
+    var_dump($deactivateUser);
     if ($deactivateUser) {
         //On déconnecte l'utilisateur
         session_destroy();
         //Et on le renvoit à l'acceuil
-        header('location: index.php');
+//        header('location: index.php');
         exit;
     }
 }

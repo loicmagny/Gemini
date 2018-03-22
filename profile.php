@@ -89,7 +89,7 @@ if (isset($_SESSION['connect'])) {
         <div class="modal-content">
             <p>Entrez votre mot de passe pour valider l'opération</p>
             <form action="#" method="POST">
-                <label for="password" class="<?= isset($formError['password']) ? 'inputError' : '' ?>"> Mot de passe :  </label><input type="password" name="deletionPassword" value ="<?= $user->password ?>" />
+                <label for="password" class="<?= isset($formError['password']) ? 'inputError' : '' ?>"> Mot de passe :  </label><input type="password" name="deletionPassword" required value ="<?= $user->password ?>" />
                 <input name="delete" id="delete" type="submit" class="btn-flat waves-effect waves-light red" value="Supprimer mon compte"/>
             </form>
         </div>

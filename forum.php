@@ -17,8 +17,8 @@ include 'controllers/forum-controller.php';
             <?php foreach ($topicsList as $topics) { ?>
                 <tr class="success center tableCommunity">
                     <td><a href="topic.php?topic=<?= $topics->id ?>&name=<?= $topics->topic ?>"> <?= $topics->topic ?> </a></td>
-                    <td><?= $topics->loginAuthor ?></td>
-                    <td><?= $topics->date ?></td>
+                    <td><?= $topics->login ?></td>
+                    <td><?= $topics->DATE ?></td>
                 </tr>
             </tbody>
         <?php } ?>

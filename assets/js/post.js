@@ -1,27 +1,24 @@
 //Au clic de l'utilisateur,
 $('#send').click(function () {
-    //On crée la variable à laquelle la valeur de l'input du même nom
+    //On crée la variable à laquelle on lie la valeur de l'input du même nom
     var post = $('#post').val();
-    //On crée la variable à laquelle la valeur de l'input du même nom
-    var postmaker = $('#postmaker').val();
-    //On crée la variable à laquelle la valeur de l'input du même nom
-    var topicid = $('#topicid').val();
-    //On crée la variable à laquelle la valeur de l'input du même nom
+    //On crée la variable à laquelle on lie la valeur de l'input du même nom
+    var id_user = $('#id_user').val();
+    //On crée la variable à laquelle on lie la valeur de l'input du même nom
+    var id_topic = $('#id_topic').val();
+    //On crée la variable à laquelle on lie la valeur de l'input du même nom
     var date = $('#date').val();
-    //On crée la variable à laquelle la valeur de l'input du même nom
+    //On crée la variable à laquelle on lie la valeur de l'input du même nom
     var id_author = $('#id_author').val();
-    //On crée la variable à laquelle la valeur de l'input du même nom
-    var authorPic = $('#authorPic').val();
+    //On crée la variable à laquelle on lie la valeur de l'input du même nom
     $.post(//Le fichier appelé lors de l'appel ajax
             '../../controllers/post-controller.php', {
                 //Les différentes valeurs qui transitent par ajax
                 send: 'Poster',
                 post: post,
-                postmaker: postmaker,
-                topicid: topicid,
-                id_author: id_author,
+                id_topic: id_topic,
+                id_user: id_user,
                 date: date,
-                authorPic: authorPic,
                 ajax: 'test'});
     //Une fois l'appel ajax terminé on créé la variable display qui permet d'afficher instantanément le commentaire entré par l'utilisateur
     var display = '<ul class="collection">'
@@ -31,8 +28,7 @@ $('#send').click(function () {
             + ' <div class="col s6 m2 l2">'
             + '<span class="postDate">' + date + '</span>'
             + ' </div>'
-            + '     <img src="' + authorPic + '" alt="photo de profil" id="profilePic"/>'
-            + ' <a href="user-profile.php?user=' + id_author + '"class="postMaker">' + postmaker + '</a>'
+            + ' <a href="user-profile.php?user=' + id_author + '"class="postMaker">' + id_user + '</a>'
             + '</div>'
             + ' </div>'
             + '</li>'

@@ -11,12 +11,13 @@
 class products extends dataBase {
 
     public $id = 0;
-    public $productname = '';
+    public $name = '';
     public $description = '';
-    //type définit le type de produit dont il s'agit, s'il est alimentaire, cosmétique, médical etc
-    public $type = 0;
+    //id_NCV9fL8njjsAB9Me_type définit le id_NCV9fL8njjsAB9Me_type de produit dont il s'agit, s'il est alimentaire, cosmétique, médical etc
+    public $id_NCV9fL8njjsAB9Me_type = 0;
     //brand désigne la marque du produit
-    public $brand = '';
+    public $id_NCV9fL8njjsAB9Me_brand = 0;
+    public $id_NCV9fL8njjsAB9Me_user = 0;
     private $tablename = TABLEPREFIX . 'products';
 
     public function __construct() {
@@ -29,11 +30,30 @@ class products extends dataBase {
      */
 
     public function productSearch() {
-        $query = 'SELECT ' . $this->tablename . '.`id`, ' . $this->tablename . '.`productname`, ' . $this->tablename . '.`description`, ' . $this->tablename . '.`type`, ' . $this->tablename . '.`brand`, ' . $this->tablename . '.`id`, ' . $this->tablename . '.`componentsname`, ' . $this->tablename . '.`description` AS description, ' . $this->tablename . '.`type`,' . $this->tablename . '.`productId` FROM (' . $this->tablename . ' LEFT JOIN ' . $this->tablename . ' ON ' . $this->tablename . '.`id` = ' . $this->tablename . '.`productId`) WHERE ' . $this->tablename . '.`productname` = :productname AND ' . $this->tablename . '.`type` = :type AND ' . $this->tablename . '.`brand` = :brand';
+        $query = 'SELECT
+    `NCV9fL8njjsAB9Me_products`.`id`,
+    `NCV9fL8njjsAB9Me_products`.`name`,
+    `NCV9fL8njjsAB9Me_products`.`description`,
+    `NCV9fL8njjsAB9Me_products`.`id_NCV9fL8njjsAB9Me_type`,
+    `NCV9fL8njjsAB9Me_products`.`id_NCV9fL8njjsAB9Me_brand`,
+    `NCV9fL8njjsAB9Me_products`.`id`,
+    `NCV9fL8njjsAB9Me_components`.`name` AS componentsName,
+    `NCV9fL8njjsAB9Me_components`.`description` AS description,
+    `NCV9fL8njjsAB9Me_components`.`id_NCV9fL8njjsAB9Me_type`
+FROM
+    (
+        `NCV9fL8njjsAB9Me_products`
+    LEFT JOIN
+        `NCV9fL8njjsAB9Me_components`
+    ON
+        `NCV9fL8njjsAB9Me_products`.`id` = `NCV9fL8njjsAB9Me_components`.`id_NCV9fL8njjsAB9Me_type`
+    )
+WHERE
+    `NCV9fL8njjsAB9Me_products`.`name` = :name AND `NCV9fL8njjsAB9Me_products`.`id_NCV9fL8njjsAB9Me_type` = :id_NCV9fL8njjsAB9Me_type AND `NCV9fL8njjsAB9Me_products`.`id_NCV9fL8njjsAB9Me_brand` = :id_NCV9fL8njjsAB9Me_brand';
         $productSearch = $this->db->prepare($query);
-        $productSearch->bindValue(':productname', $this->productname, PDO::PARAM_STR);
-        $productSearch->bindValue(':type', $this->type, PDO::PARAM_STR);
-        $productSearch->bindValue(':brand', $this->brand, PDO::PARAM_STR);
+        $productSearch->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $productSearch->bindValue(':id_NCV9fL8njjsAB9Me_type', $this->id_NCV9fL8njjsAB9Me_type, PDO::PARAM_STR);
+        $productSearch->bindValue(':id_NCV9fL8njjsAB9Me_brand', $this->brand, PDO::PARAM_STR);
         $productSearch->execute();
         if ($productSearch->execute()) {
             $productList = $productSearch->fetch(PDO::FETCH_OBJ);

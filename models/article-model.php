@@ -5,7 +5,7 @@
  * Elle est enfant de dataBase
  */
 
-class article extends dataBase {
+class articles extends dataBase {
 
     public $id = 0;
     public $title = '';
@@ -14,7 +14,7 @@ class article extends dataBase {
     public $author = '';
     public $id_author = 0;
     public $authorPic = '';
-    private $tablename = TABLEPREFIX . 'article';
+    private $tablename = TABLEPREFIX . 'articles';
 
     public function __construct() {
         parent::__construct();
@@ -25,14 +25,12 @@ class article extends dataBase {
      */
 
     public function addArticle() {
-        $query = 'INSERT INTO ' . $this->tablename . '(`title`, `content`, `date`, `author`, `id_author`, `authorPic`) VALUES (:title, :content, :date, :author, :id_author, :authorPic)';
+        $query = 'INSERT INTO ' . $this->tablename . '(`title`, `content`, `date`, `id_author`) VALUES (:title, :content, :date, :id_author)';
         $addArticle = $this->db->prepare($query);
         $addArticle->bindValue(':title', $this->title, PDO::PARAM_STR);
         $addArticle->bindValue(':content', $this->content, PDO::PARAM_STR);
         $addArticle->bindValue(':date', $this->date, PDO::PARAM_STR);
-        $addArticle->bindValue(':author', $this->author, PDO::PARAM_STR);
         $addArticle->bindValue(':id_author', $this->id_author, PDO::PARAM_INT);
-        $addArticle->bindValue(':authorPic', $this->authorPic, PDO::PARAM_STR);
         return $addArticle->execute();
     }
 
@@ -42,7 +40,25 @@ class article extends dataBase {
 
     public function getArticlesList() {
         $articleList = array();
-        $query = 'SELECT `id`, `title`, `content`,  DATE_FORMAT(`date`, "%d/%m/%Y") AS date, `author` FROM ' . $this->tablename . '';
+        $query = 'SELECT
+    ' . $this->tablename . '.`id`,
+    ' . $this->tablename . '.`title`,
+    ' . $this->tablename . '.`content`,
+    ' . $this->tablename . '.`id_author`,
+    `NCV9fL8njjsAB9Me_user`.`login`,
+    `NCV9fL8njjsAB9Me_user`.`profilePic`,
+    DATE_FORMAT(
+        ' . $this->tablename . '.`date`,
+        "%d/%m/%Y"
+    ) AS DATE
+FROM
+    (
+        ' . $this->tablename . '
+    LEFT JOIN
+        `NCV9fL8njjsAB9Me_user`
+    ON
+        `NCV9fL8njjsAB9Me_user`.`id` = ' . $this->tablename . '.`id_author`
+    )';
         $articleResult = $this->db->query($query);
         if (is_object($articleResult)) {
             $articleList = $articleResult->fetchAll(pdo::FETCH_OBJ);
@@ -56,7 +72,25 @@ class article extends dataBase {
 
     public function getArticlesContent() {
         $articleContentList = array();
-        $query = 'SELECT `id`, `title`, `content`,  DATE_FORMAT(`date`, "%d/%m/%Y") AS date, `author`, `id_author`, `authorPic` FROM ' . $this->tablename . ' WHERE id = :id';
+        $query = 'SELECT
+    ' . $this->tablename . '.`id`,
+    ' . $this->tablename . '.`title`,
+    ' . $this->tablename . '.`content`,
+    ' . $this->tablename . '.`id_author`,
+    `NCV9fL8njjsAB9Me_user`.`login`,
+    `NCV9fL8njjsAB9Me_user`.`profilePic`,
+    DATE_FORMAT(
+        ' . $this->tablename . '.`date`,
+        "%d/%m/%Y"
+    ) AS DATE
+FROM
+    (
+        ' . $this->tablename . '
+    LEFT JOIN
+        `NCV9fL8njjsAB9Me_user`
+    ON
+        `NCV9fL8njjsAB9Me_user`.`id` = ' . $this->tablename . '.`id_author`
+    )';
         $articleContentResult = $this->db->prepare($query);
         $articleContentResult->bindValue(':id', $this->id, PDO::PARAM_INT);
         $articleContentResult->execute();

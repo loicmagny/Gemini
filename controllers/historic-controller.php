@@ -17,17 +17,22 @@ if (isset($_SESSION['connect'])) {
     }
     //Si un conseil est visité, on ajoute son id à l'historique de l'utilisateur
     if (isset($_GET['advice'])) {
-        $historic->id_advice = $_GET['advice'];
-        $addInHistoric = $historic->AddInHistoric();
-        //Si un article est visité, on ajoute son id à l'historique de l'utilisateur
-    } else if (isset($_GET['article'])) {
-        $historic->id_articles = $_GET['article'];
-        $addInHistoric = $historic->AddInHistoric();
-        //Si un sujet est visité, on ajoute son id à l'historique de l'utilisateur
-    } else if (isset($_GET['topic'])) {
-        $historic->id_topic = $_GET['topic'];
-        $addInHistoric = $historic->AddInHistoric();
-    } else {
-        $empty = 'Votre historique est vide pour le moment';
+        $historic->id_tips = $_GET['advice'];
+        $historic->visit_date = date('Y-m-d H:i');
+        $addTipsInHistoric = $historic->AddTipsInHistoric();
     }
+        //Si un article est visité, on ajoute son id à l'historique de l'utilisateur
+    if (isset($_GET['article'])) {
+        $historic->id_articles = $_GET['article'];
+        $historic->visit_date = date('Y-m-d H:i');
+        $addArticlesInHistoric = $historic->AddArticlesInHistoric();
+    }
+    //Si un topic du forum est visité, on ajoute son id à l'historique de l'utilisateur
+    if (isset($_GET['topic'])) {
+        $historic->id_topic = $_GET['topic'];
+        $historic->visit_date = date('Y-m-d H:i');
+        $addTopicInHistoric = $historic->AddTopicInHistoric();
+    }
+} else {
+    $empty = 'Votre historique est vide pour le moment';
 }

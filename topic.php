@@ -14,14 +14,14 @@ include 'controllers/post-controller.php';
                             <div class="row ">
                                 <div class="postInfo">
                                     <div class="col s6 m2 l2">
-                                        <span class="postDate"><?= $posts->date; ?></span>
+                                        <span class="postDate"><?= $posts->DATE; ?></span>
                                     </div>
-                                    <?php if (($posts->authorPic) != null) { ?>
-                                        <img src="<?= $posts->authorPic ?>" alt="photo de profil" id="profilePic"/>
+                                    <?php if (($posts->profilePic) != null) { ?>
+                                        <img src="<?= $posts->profilePic ?>" alt="photo de profil" id="profilePic"/>
                                     <?php } else { ?>
                                         <i class="medium material-icons postMaker">account_circle</i>
                                     <?php } ?>
-                                    <a href="user-profile.php?user=<?= $posts->id_author; ?>"class="postMaker"><?= $posts->postmaker ?></a>
+                                    <a href="user-profile.php?user=<?= $posts->id_user; ?>"class="postMaker"><?= $posts->login ?></a>
                                 </div>
                             </div>
                         </li>
@@ -42,11 +42,9 @@ include 'controllers/post-controller.php';
         <form method="POST" action="#" enctype="multipart/form-data">
             <div class="row">
                 <div class="input-field col s12 ">
-                    <input type="date" hidden class="form-control " name="date"  id="date" value="<?= date('Y-m-d'); ?>" />
-                    <input type="text" hidden class="form-control " name="id_author"  id="id_author" value="<?= $_SESSION['id'] ?>" />
-                    <input type="text" hidden class="form-control " name="topicid"  id="topicid" value="<?= $_GET['topic'] ?>" />
-                    <input type="text" hidden class="form-control " name="postmaker"  id="postmaker" value="<?= $_SESSION['login'] ?>" />
-                    <input type="text" hidden class="form-control" name="authorPic" id="authorPic" value="<?= $_SESSION['profilePic']; ?>" />
+                    <input type="datetime" hidden class="form-control " name="date"  id="date" value="<?= date('Y-m-d H:i'); ?>" />
+                    <input type="text" hidden class="form-control " name="id_user"  id="id_user" value="<?= $_SESSION['id']; ?>" />
+                    <input type="text" hidden class="form-control " name="id_topic"  id="id_topic" value="<?= $_GET['topic']; ?>" />
                     <textarea id="post" class="materialize-textarea " name="post" data-length="300"></textarea>
                     <label for="textarea1">Contenu</label>
                     <a id="send" onclick="Materialize.toast('Message posté', 2000)" class="btn btn-flat">Publier</a>

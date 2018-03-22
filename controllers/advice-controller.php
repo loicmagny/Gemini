@@ -1,5 +1,5 @@
 <?php
-//On instancie la classe advice()
-$advice = new advice();
+//On instancie la classe tips()
+$tips = new tips();
 //On appelle la méthode getAdvicesList() afin d'afficher les conseils présent en base de données
-$adviceList = $advice->getAdvicesList();
+$tipsList = $tips->getTipsList();

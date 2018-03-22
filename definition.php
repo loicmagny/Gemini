@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-include 'controllers/definition-controller.php';
+include 'controllers/glossary-controller.php';
 ?>
 <div class=" section white">
     <div>

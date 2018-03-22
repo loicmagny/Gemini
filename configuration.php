@@ -7,4 +7,4 @@ define('DBNAME', 'gemini');
 define('TABLEPREFIX', 'NCV9fL8njjsAB9Me_');
 
 //constante de configuration de l'application
-define('LIVESITE', 'http://ajaxtest/');
+define('LIVESITE', 'http://gemini/');

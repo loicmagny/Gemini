@@ -14,11 +14,11 @@ include 'controllers/advice-controller.php';
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($adviceList as $advice) { ?>
+            <?php foreach ($tipsList as $tips) { ?>
                 <tr class="success center tableCommunity">
-                    <td><a href="advice-content.php?advice=<?= $advice->id ?>"><?= $advice->title; ?></a></td>
-                    <td><?= $advice->author; ?></td>
-                    <td><?= $advice->date; ?></td>
+                    <td><a href="advice-content.php?tips=<?= $tips->id ?>"><?= $tips->title; ?></a></td>
+                    <td><?= $tips->login; ?></td>
+                    <td><?= $tips->DATE; ?></td>
                 </tr>
             <?php } ?>
         </tbody>
