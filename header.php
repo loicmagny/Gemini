@@ -11,10 +11,12 @@ include 'models/post-model.php';
 include 'models/tips-model.php';
 include 'models/article-model.php';
 include 'models/historic-model.php';
+include 'models/role-model.php';
 include 'controllers/connection-controller.php';
 include 'controllers/historic-controller.php';
 include 'controllers/options-controller.php';
 include 'controllers/confirm-controller.php';
+include 'controllers/forum-controller.php';
 include_once 'assets/lang/' . (isset($_GET['lang']) ? $_GET['lang'] : 'FR_FR') . '.php';
 ?>
 <!DOCTYPE html>
@@ -33,6 +35,9 @@ include_once 'assets/lang/' . (isset($_GET['lang']) ? $_GET['lang'] : 'FR_FR') .
         <?php } ?>
         <?php if ($connectSuccess) { ?>
             <meta http-equiv="refresh" content="0; url=index.php" />
+        <?php } ?>
+        <?php if ($deletionSuccess) { ?>
+            <meta http-equiv="refresh" content="0; url=forum.php" />
         <?php } ?>
         <link rel="icon" href="../../favicon.ico">
         <title><?= TITLE ?></title>
@@ -86,7 +91,7 @@ include_once 'assets/lang/' . (isset($_GET['lang']) ? $_GET['lang'] : 'FR_FR') .
                 <li><a href="search.php"><?= HEADER_SEARCH ?></a></li>
                 <li><a href="definition.php?letter=a"><?= HEADER_GLOSSARY ?></a></li>
                 <?php if (!isset($_SESSION['connect'])) { ?>
-                    <li><a class="modal-trigger" href="#modal1"><?= HEADER_CONNECTION ?></a></li>
+                    <li><a class="modal-trigger" href="#modalConnect"><?= HEADER_CONNECTION ?></a></li>
                 <?php } ?>
                 <li class="divider"><?= HEADER_COMMUNITY ?></li>
                 <li><a href="forum.php"><?= HEADER_COMMUNITY_FORUM ?></a></li>

@@ -24,9 +24,41 @@ include 'controllers/post-controller.php';
                                     <a href="user-profile.php?user=<?= $posts->id_user; ?>"class="postMaker"><?= $posts->login ?></a>
                                 </div>
                             </div>
+                            <div class="row">
+                                <?php if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2 || $_SESSION['id'] == $posts->id_user) { ?>
+                                    <div class="col s12 m12 l12">
+                                        <form action="#" method="POST">
+                                            <button type="submit" name="updatePost" class="btn-flat tooltipped waves" data-position="left" data-delay="50" data-tooltip="Modifier le commentaire" ><i class="material-icons">create</i></button>
+                                        </form>
+                                        <form action="#" method="POST">
+                                            <input hidden value="<?= $posts->id; ?>" id="disabled" name="id" type="text" class="validate">
+                                            <input hidden value="<?= $posts->id_user; ?>" id="disabled" name="id_user" type="text" class="validate">
+                                            <input hidden value="<?= $posts->id_topic; ?>" id="disabled" name="id_topic" type="text" class="validate">
+                                            <button type="submit" name="deletePost" class="btn-flat tooltipped waves" data-position="right" data-delay="50" data-tooltip="Supprimer le commentaire" ><i class="material-icons">delete_forever</i></button>
+                                        </form>
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </li>
                         <li class="divider"></li>
-                        <li class="postContent"><?= $posts->post; ?></li>
+                        <li class="postContent">
+                            <div class="row">
+
+                                <div class="input-field col s12">
+                                    <?php if (isset($_POST['updatePost'])) { ?>
+                                        <form action="#" method="POST">
+                                            <input hidden value="<?= $posts->id; ?>" id="disabled" name="id" type="text" class="validate">
+                                            <input hidden value="<?= $posts->id_user; ?>" id="disabled" name="id_user" type="text" class="validate">
+                                            <input hidden value="<?= $posts->id_topic; ?>" id="disabled" name="id_topic" type="text" class="validate">
+                                            <input value="<?= $posts->post; ?>" name="newPost" type="text" class="validate">
+                                            <button type="submit" name="validateUpdate" class="btn blue waves" >Modifier</button>
+                                        </form>
+                                    <?php } else { ?>
+                                        <input disabled value="<?= $posts->post; ?>" id="disabled" name="newPost" type="text" class="validate">
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 <?php } ?>
             </div>

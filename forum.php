@@ -1,6 +1,5 @@
 <?php
 include 'header.php';
-include 'controllers/forum-controller.php';
 ?>
 <div class="section white container formOptions">
     <h1>Forum</h1>
@@ -19,7 +18,13 @@ include 'controllers/forum-controller.php';
                     <td><a href="topic.php?topic=<?= $topics->id ?>&name=<?= $topics->topic ?>"> <?= $topics->topic ?> </a></td>
                     <td><?= $topics->login ?></td>
                     <td><?= $topics->DATE ?></td>
-                </tr>
+                    <?php if ($_SESSION['role'] == 1 || $_SESSION['role'] == 2) { ?>
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="text" hidden name="topic_id" value="<?= $topics->id ?>"/>
+                    <td><button type="submit" name="delete" class="btn-flat tooltipped waves" data-position="right" data-delay="50" data-tooltip="Supprimer le topic" ><i class="material-icons">delete_forever</i></button></td>
+                </form>
+            <?php } ?>
+            </tr>
             </tbody>
         <?php } ?>
     </table>

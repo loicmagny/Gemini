@@ -42,7 +42,7 @@ if (isset($_POST['connect'])) {
             $_SESSION['colorNav'] = $userConnect->colorNav;
             $_SESSION['colorUserNav'] = $userConnect->colorUserNav;
             $_SESSION['activate'] = $userConnect->activate;
-            $_SESSION['admin'] = $userConnect->admin;
+            $_SESSION['role'] = $userConnect->id_role;
             $connectSuccess = true;
         } else {
             $formError['submit'] = 'Erreur lors de la connexion';

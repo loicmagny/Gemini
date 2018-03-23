@@ -22,7 +22,7 @@ class user extends dataBase {
     //Booléen qui détermine si un compte utilisateur est activé ou non
     public $activate = 0;
     //Booléen qui détermine si un compte utilisateur détermine si un compte à les droits d'administration ou non
-    public $id_NCV9fL8njjsAB9Me_role = '';
+    public $id_role = '';
     private $tablename = TABLEPREFIX . 'user';
 
     public function __construct() {
@@ -102,7 +102,7 @@ class user extends dataBase {
      */
 
     public function userConnect() {
-        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav`, `confirmCode`, `activate` FROM ' . $this->tablename . ' WHERE `login` = :login AND `password` = :password';
+        $query = 'SELECT `id`, `login`, `password`, DATE_FORMAT(`birthdate`, "%d/%m/%Y") AS birthdate, `mail`, `profilePic`, `colorNav`, `colorUserNav`, `confirmCode`, `activate`, `id_role` FROM ' . $this->tablename . ' WHERE `login` = :login AND `password` = :password';
         $userConnect = $this->db->prepare($query);
         $userConnect->bindValue(':login', $this->login, PDO::PARAM_STR);
         $userConnect->bindValue(':password', $this->password, PDO::PARAM_STR);
@@ -136,19 +136,14 @@ class user extends dataBase {
         }
     }
 
-    /*
-     * La méthode passwordForgotten() permet à un utilisateur de modifier son mot de passe dans le cas où il l'a perdu/oublié,
-     * le code de confirmation envoyé lors de l'inscription est nécéssaire ainsi que le login et l'adresse mail.
-     */
-
-    public function passwordForgotten() {
-        $query = 'UPDATE ' . $this->tablename . ' SET `password` = :password WHERE `login` = :login AND `mail` = :mail AND confirmCode = :confirmCode';
-        $passwordForgotten = $this->db->prepare($query);
-        $passwordForgotten->bindValue(':password', $this->password, PDO::PARAM_STR);
-        $passwordForgotten->bindValue(':login', $this->login, PDO::PARAM_STR);
-        $passwordForgotten->bindValue(':mail', $this->mail, PDO::PARAM_STR);
-        $passwordForgotten->bindValue(':confirmCode', $this->confirmCode, PDO::PARAM_STR);
-        return $passwordForgotten->execute();
+    public function getUserList() {
+        $userListResult = array();
+        $query = 'SELECT `id`, `login` FROM ' . $this->tablename . '';
+        $userList = $this->db->query($query);
+        if (is_object($userList)) {
+            $userListResult = $userList->fetchAll(pdo::FETCH_OBJ);
+        }
+        return $userListResult;
     }
 
     /*
@@ -164,6 +159,36 @@ class user extends dataBase {
             $userProfile = $getUserProfile->fetch(PDO::FETCH_OBJ);
         }
         return $userProfile;
+    }
+
+    public function grantRole() {
+        $query = 'UPDATE ' . $this->tablename . ' SET `id_role` = :id_role WHERE `id` = :id';
+        $grantRole = $this->db->prepare($query);
+        $grantRole->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $grantRole->bindValue(':id_role', $this->id_role, PDO::PARAM_INT);
+        return $grantRole->execute();
+    }
+
+    public function removeRole() {
+        $query = 'UPDATE ' . $this->tablename . ' SET `id_role` = NULL WHERE `id` = :id';
+        $removeRole = $this->db->prepare($query);
+        $removeRole->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $removeRole->execute();
+    }
+
+    /*
+     * La méthode passwordForgotten() permet à un utilisateur de modifier son mot de passe dans le cas où il l'a perdu/oublié,
+     * le code de confirmation envoyé lors de l'inscription est nécéssaire ainsi que le login et l'adresse mail.
+     */
+
+    public function passwordForgotten() {
+        $query = 'UPDATE ' . $this->tablename . ' SET `password` = :password WHERE `login` = :login AND `mail` = :mail AND confirmCode = :confirmCode';
+        $passwordForgotten = $this->db->prepare($query);
+        $passwordForgotten->bindValue(':password', $this->password, PDO::PARAM_STR);
+        $passwordForgotten->bindValue(':login', $this->login, PDO::PARAM_STR);
+        $passwordForgotten->bindValue(':mail', $this->mail, PDO::PARAM_STR);
+        $passwordForgotten->bindValue(':confirmCode', $this->confirmCode, PDO::PARAM_STR);
+        return $passwordForgotten->execute();
     }
 
     /*

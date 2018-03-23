@@ -5,7 +5,7 @@
  * Elle est enfant de dataBase. 
  */
 
-class post extends dataBase {
+class post extends topic {
 
     public $id = 0;
     public $post = '';
@@ -88,6 +88,49 @@ LIMIT 25 OFFSET :offset';
             $postCountResult = false;
         }
         return $postCountResult;
+    }
+
+    public function updatePost() {
+        $query = 'UPDATE ' . $this->tablename . ' SET `post` = :post WHERE `id_user` = :id_user AND id_topic = :id_topic AND id =:id';
+        $updatePost = $this->db->prepare($query);
+        $updatePost->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $updatePost->bindValue(':post', $this->post, PDO::PARAM_STR);
+        $updatePost->bindValue(':id_user', $this->id_user, PDO::PARAM_INT);
+        $updatePost->bindValue(':id_topic', $this->id_topic, PDO::PARAM_INT);
+        return $updatePost->execute();
+    }
+
+    public function deletePost() {
+        $query = 'DELETE FROM ' . $this->tablename . '  WHERE `id_user` = :id_user AND id_topic = :id_topic AND id =:id';
+        $deleteTopic = $this->db->prepare($query);
+        $deleteTopic->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $deleteTopic->bindValue(':id_user', $this->id_user, PDO::PARAM_INT);
+        $deleteTopic->bindValue(':id_topic', $this->id_topic, PDO::PARAM_INT);
+        return $deleteTopic->execute();
+    }
+
+    private function deletePosts() {
+        $query = 'DELETE FROM ' . $this->tablename . ' WHERE ' . $this->tablename . '.`id_topic` = :id_topic';
+        $deleteTopic = $this->db->prepare($query);
+        $deleteTopic->bindValue(':id_topic', $this->id_topic, PDO::PARAM_INT);
+        return $deleteTopic->execute();
+    }
+
+    public function deleteTopicAndPost() {
+        try {
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->beginTransaction();
+            $this->deletePosts();
+            $query = 'DELETE FROM `NCV9fL8njjsAB9Me_topic` WHERE `NCV9fL8njjsAB9Me_topic`.`id` = :id_topic';
+            $deleteTopic = $this->db->prepare($query);
+            $deleteTopic->bindValue(':id_topic', $this->id_topic, PDO::PARAM_INT);
+            $deleteTopic->execute();
+            $this->db->commit();
+            return $deleteTopic;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            echo 'Erreur: ' . $e->getMessage();
+        }
     }
 
     function __destruct() {

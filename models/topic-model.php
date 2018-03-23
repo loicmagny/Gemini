@@ -32,35 +32,6 @@ class topic extends dataBase {
         return $addTopic;
     }
 
-    public function getLastInsertedTopic() {
-        $topicList = array();
-        $query = 'SELECT `id` FROM ' . $this->tablename . '  WHERE `id` = LAST_INSERT_ID()';
-        $LastInsertedTopic = $this->db->query($query);
-        if ($LastInsertedTopic->execute()) {
-            if (is_object($LastInsertedTopic)) {
-                $LastInsertedTopicObtained = $LastInsertedTopic->fetch(PDO::FETCH_OBJ);
-                if (!empty($LastInsertedTopicObtained)) {
-                    $this->id = $LastInsertedTopicObtained->id;
-                }
-            }
-            return $LastInsertedTopicObtained;
-        }
-    }
-
-    public function createTopic() {
-        try {
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->db->beginTransaction();
-            $this->addTopic();
-            $createTopic = $this->getLastInsertedTopic();
-            $this->db->commit();
-            return $createTopic;
-        } catch (Exception $e) {
-            $this->db->rollBack();
-            echo 'Erreur: ' . $e->getMessage();
-        }
-    }
-
     /*
      * Cette méthode permet de récupérer la listes des sujets du forum afin de les afficher
      */

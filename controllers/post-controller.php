@@ -5,8 +5,9 @@ $getPosts = false;
 $formError = array();
 if (isset($_POST['ajax'])) {//Si on lance l'appel ajax
     //On inclue les models dataBase.php, post-model.php, et historic-model.php
-    include '../models/dataBase.php';
     include '../configuration.php';
+    include '../models/dataBase.php';
+    include '../models/topic-model.php';
     include '../models/post-model.php';
     include '../models/historic-model.php';
     $post = new post(); //On instancie la classe post()
@@ -70,4 +71,22 @@ if (isset($_POST['ajax'])) {//Si on lance l'appel ajax
             $maxPagination = ceil($postCount->numberPost / $limit);
         }
     }
+    if (isset($_POST['validateUpdate'])) {
+        if (isset($_POST['newPost'])) {
+            $post->post = htmlspecialchars($_POST['newPost']);
+            $post->id = htmlspecialchars($_POST['id']);
+            $post->id_user = htmlspecialchars($_POST['id_user']);
+            $post->id_topic = htmlspecialchars($_POST['id_topic']);
+            $postUpdated = $post->updatePost();
+        } else if (empty($_POST['newPost'])) {
+            $formError['emptyNewPost'] = 'Veuillez remplir le champ';
+        }
+    }
+    if (isset($_POST['deletePost'])) {
+        $post->id = htmlspecialchars($_POST['id']);
+        $post->id_user = htmlspecialchars($_POST['id_user']);
+        $post->id_topic = htmlspecialchars($_POST['id_topic']);
+        $postErased = $post->deletePost();
+    }
 }
+    

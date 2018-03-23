@@ -11,10 +11,6 @@ if (isset($_SESSION['connect'])) {
                 <input id="topic" name="topic" type="text" required class="validate">
                 <label for="topic">Sujet</label>
             </div>
-            <div class="input-field col s6">
-                <textarea id="post" class="materialize-textarea " name="post" data-length="300"></textarea>
-                <label for="textarea1">Contenu</label>
-            </div>
             <input type="text" hidden class="form-control" name="id_author" value="<?= $_SESSION['id'] ?>" />
             <button type="submit" name="submit" class="btn btn-primary">Créer le topic</button>
         </form>
