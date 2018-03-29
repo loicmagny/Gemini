@@ -1,5 +1,7 @@
 <?php
 include 'header.php';
+
+include 'controllers/options-controller.php';
 if (isset($_SESSION['connect'])) {
     ?><div class="section white container">
         <div class="row">

@@ -12,11 +12,10 @@ include 'models/tips-model.php';
 include 'models/article-model.php';
 include 'models/historic-model.php';
 include 'models/role-model.php';
+include 'models/brand-model.php';
+include 'models/type-model.php';
 include 'controllers/connection-controller.php';
 include 'controllers/historic-controller.php';
-include 'controllers/options-controller.php';
-include 'controllers/confirm-controller.php';
-include 'controllers/forum-controller.php';
 include_once 'assets/lang/' . (isset($_GET['lang']) ? $_GET['lang'] : 'FR_FR') . '.php';
 ?>
 <!DOCTYPE html>
@@ -35,9 +34,6 @@ include_once 'assets/lang/' . (isset($_GET['lang']) ? $_GET['lang'] : 'FR_FR') .
         <?php } ?>
         <?php if ($connectSuccess) { ?>
             <meta http-equiv="refresh" content="0; url=index.php" />
-        <?php } ?>
-        <?php if ($deletionSuccess) { ?>
-            <meta http-equiv="refresh" content="0; url=forum.php" />
         <?php } ?>
         <link rel="icon" href="../../favicon.ico">
         <title><?= TITLE ?></title>
@@ -114,8 +110,6 @@ include_once 'assets/lang/' . (isset($_GET['lang']) ? $_GET['lang'] : 'FR_FR') .
                                 </div>
                                 <a href="password-forgotten.php" class="modal-action modal-close waves-effect waves-green btn-flat "><?= HEADER_CONNECTION_MODAL_PASSWORD_FORGOTTEN ?></a>
                                 <a href="register.php" class="modal-action modal-close waves-effect waves-green btn-flat "><?= HEADER_CONNECTION_MODAL_REGISTER ?></a>
-                            </div>
-                            <div id="resultat">
                             </div>
                             <?php
                             foreach ($formError as $error) {

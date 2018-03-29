@@ -2,9 +2,8 @@
 
 $componentSearch = false;
 $formError = array();
-// on instancie les classe components(), historic(), products()
+// on instancie les classe components() et products()
 $component = new components();
-$historic = new historic();
 $product = new products();
 $productSearch = false;
 if (isset($_POST['searchComponent'])) { // Si on cherche un composant
@@ -29,7 +28,7 @@ if (isset($_POST['searchComponent'])) { // Si on cherche un composant
     }
 } else if (isset($_POST['searchProduct'])) {
     if (isset($_POST['productName'])) {
-        $product->productname = strip_tags($_POST['productName']); //On attribue les valeurs des input aux attributs de la classe products permettant d'effectuer la recherche
+        $product->name = strip_tags($_POST['productName']); //On attribue les valeurs des input aux attributs de la classe products permettant d'effectuer la recherche
     }
     if (isset($_POST['productType'])) {
         $product->type = strip_tags($_POST['productType']);
@@ -40,15 +39,6 @@ if (isset($_POST['searchComponent'])) { // Si on cherche un composant
     $productList = $product->productSearch(); //On appelle la méthode qui permet d'effectuer la recherche
     if (!$productList) {
         $formError['submitProduct'] = 'Erreur lors de la recherche, il nous manque certainement quelques informations';
-    } else {
-        $productSearch = true;
-        if ($productSearch) {//Si la recherche à lieu
-            $historic->id_products = $productList->id;
-            $historic->id_user = $_SESSION['id'];
-            $addInHistoric = $historic->AddInHistoric(); // On appelle la méthode qui permet d'ajouter la recherche à l'historique
-        } else {
-            $formError['error'] = 'Une erreur est survenue, veuillez réessayer';
-        }
     }
 }
 

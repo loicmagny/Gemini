@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+include 'controllers/forum-controller.php';
 ?>
 <div class="section white container formOptions">
     <h1>Forum</h1>

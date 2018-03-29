@@ -4,8 +4,11 @@ include 'controllers/search-controller.php';
 ?>
 <div class="section white">
     <div class="row container">
-        <h2 class="display-3">Rechercher un composant</h2>
+        <h1 class="display-3">Rechercher un composant</h1>
         <form class="form-horizontal" method="POST" action="search-result.php">
+            <?php if (isset($_SESSION['role']) == 1 || isset($_SESSION['role']) == 2) { ?>
+                <a href="search-settings.php" class="btn-flat tooltipped waves" data-position="right" data-delay="50" data-tooltip="Réglagles"><i class="material-icons">settings</i></a>
+            <?php } ?>
             <div class="input-field col s6">
                 <input id="last_name" type="text" name="componentName" class="validate">
                 <label for="componentName">Nom du composant</label>

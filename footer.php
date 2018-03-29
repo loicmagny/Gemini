@@ -26,5 +26,6 @@
     <script src="assets/js/materializeDOMElements.js"></script>
     <script src="assets/js/post.js"></script>
     <script src="assets/js/checkUnique.js"></script>
+    <script src="assets/js/search-settings.js"></script>
 </body>
 </html>

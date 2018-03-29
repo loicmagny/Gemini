@@ -33,7 +33,8 @@ class topic extends dataBase {
     }
 
     /*
-     * Cette méthode permet de récupérer la listes des sujets du forum afin de les afficher
+     * Cette méthode permet de récupérer la listes des sujets du forum afin de les afficher. Elle récupère non seulement les sujets, 
+     * mais également leur créateur ainsi que la date de création.
      */
 
     public function getTopicsList() {
@@ -42,15 +43,15 @@ class topic extends dataBase {
     `' . $this->tablename . '`.`id`,
     `' . $this->tablename . '`.`topic`,
     `' . $this->tablename . '`.`id_user`,
-    `NCV9fL8njjsAB9Me_user`.`login`,
+    `' . self::PREFIX . 'user`.`login`,
     DATE_FORMAT(`' . $this->tablename . '`.`date`, "%d/%m/%Y %H:%i") AS DATE
 FROM
     (
         `' . $this->tablename . '`
     LEFT JOIN
-        `NCV9fL8njjsAB9Me_user`
+        `' . self::PREFIX . 'user`
     ON
-        `' . $this->tablename . '`.`id_user` = `NCV9fL8njjsAB9Me_user`.`id`
+        `' . $this->tablename . '`.`id_user` = `' . self::PREFIX . 'user`.`id`
     )';
         $topicResult = $this->db->query($query);
         if (is_object($topicResult)) {
